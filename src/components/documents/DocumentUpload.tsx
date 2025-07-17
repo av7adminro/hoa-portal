@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { supabase } from '../../lib/supabase';
+import { uploadFile } from '../../utils/storage';
 
 interface DocumentUploadProps {
   onUploadComplete?: () => void;
@@ -43,8 +44,18 @@ export default function DocumentUpload({ onUploadComplete }: DocumentUploadProps
         return;
       }
 
-      // Temporary: Save document metadata without actual file storage
-      const filePath = `documents/${selectedFile.name}`;
+      // Generate unique file path
+      const timestamp = Date.now();
+      const fileName = `${timestamp}-${selectedFile.name}`;
+      const filePath = `documents/${user.id}/${fileName}`;
+      
+      // Upload file to storage
+      const { error: uploadError } = await uploadFile(selectedFile, filePath);
+      
+      if (uploadError) {
+        setError('Eroare la incarcarea fisierului: ' + uploadError.message);
+        return;
+      }
       
       // Save document metadata to database
       const { error: dbError } = await supabase

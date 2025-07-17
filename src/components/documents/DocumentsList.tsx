@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
+import { downloadFile, deleteFile } from '../../utils/storage';
 
 interface Document {
   id: string;
@@ -38,7 +39,12 @@ export default function DocumentsList({ refreshTrigger }: DocumentsListProps) {
       
       const { data, error } = await supabase
         .from('documents')
-        .select('*')
+        .select(`
+          *,
+          profiles:uploaded_by (
+            full_name
+          )
+        `)
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -48,7 +54,7 @@ export default function DocumentsList({ refreshTrigger }: DocumentsListProps) {
 
       const documentsWithUploader = data.map(doc => ({
         ...doc,
-        uploader_name: 'Administrator' // Temporary fix until we set up proper relationships
+        uploader_name: doc.profiles?.full_name || 'Utilizator necunoscut'
       }));
 
       setDocuments(documentsWithUploader);
@@ -60,17 +66,45 @@ export default function DocumentsList({ refreshTrigger }: DocumentsListProps) {
   };
 
   const downloadDocument = async (filePath: string, fileName: string) => {
-    // Temporary: Show message instead of downloading
-    alert(`Funcția de descărcare pentru "${fileName}" va fi implementată când storage-ul va fi configurat.`);
+    try {
+      const { data, error } = await downloadFile(filePath);
+      
+      if (error) {
+        alert('Eroare la descarcarea documentului: ' + error.message);
+        return;
+      }
+      
+      if (data) {
+        // Create a download link
+        const url = URL.createObjectURL(data);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+    } catch (error) {
+      alert('Eroare la descarcarea documentului: ' + (error instanceof Error ? error.message : 'Eroare'));
+    }
   };
 
-  const deleteDocument = async (id: string, _filePath: string) => {
+  const deleteDocument = async (id: string, filePath: string) => {
     if (!confirm('Esti sigur ca vrei sa stergi acest document?')) {
       return;
     }
 
     try {
-      // Delete from database only (no storage deletion needed for now)
+      // Delete from storage first
+      const { error: storageError } = await deleteFile(filePath);
+      
+      if (storageError) {
+        alert('Eroare la stergerea fisierului: ' + storageError.message);
+        return;
+      }
+      
+      // Delete from database
       const { error: dbError } = await supabase
         .from('documents')
         .delete()
