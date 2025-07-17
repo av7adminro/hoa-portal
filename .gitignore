@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# setup instructions (contains sensitive info references)
+SETUP_STORAGE_INSTRUCTIONS.md
