@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { AuthService } from '../../../lib/auth';
 import { supabase } from '../../../lib/supabase';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import type { User } from '../../../lib/supabase';
 
 export default function TenantDashboard() {
@@ -152,12 +153,13 @@ export default function TenantDashboard() {
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {[
-          { title: 'Plateste factura', icon: '💰', action: 'Plateste acum', color: 'from-green-500/10 to-emerald-500/10', border: 'border-green-500/20' },
+          { title: 'Plateste factura', icon: '💰', action: 'Plateste acum', color: 'from-green-500/10 to-emerald-500/10', border: 'border-green-500/20', link: '/payments' },
           { title: 'Trimite index apa', icon: '📊', action: 'Trimite index', color: 'from-blue-500/10 to-cyan-500/10', border: 'border-blue-500/20' },
-          { title: 'Descarca documente', icon: '📥', action: 'Vezi documente', color: 'from-purple-500/10 to-pink-500/10', border: 'border-purple-500/20' }
+          { title: 'Descarca documente', icon: '📥', action: 'Vezi documente', color: 'from-purple-500/10 to-pink-500/10', border: 'border-purple-500/20', link: '/documents' }
         ].map((action, index) => (
           <div
             key={index}
+            onClick={() => action.link && router.push(action.link)}
             className={`backdrop-blur-2xl bg-gradient-to-br ${action.color} rounded-2xl p-6 border ${action.border} hover:border-white/30 transition-all duration-300 hover:bg-white/20 group cursor-pointer transform hover:scale-105 shadow-lg hover:shadow-2xl`}
           >
             <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -305,192 +307,47 @@ export default function TenantDashboard() {
       case 'overview':
         return renderOverview();
       case 'payments':
-        return renderPayments();
+        return (
+          <div className="backdrop-blur-2xl bg-white/10 rounded-2xl p-6 border border-white/20">
+            <h3 className="text-xl font-bold text-gray-800 mb-6">Plățile mele</h3>
+            <p className="text-gray-600 mb-6">Vezi și gestionează toate plățile tale</p>
+            <Link
+              href="/payments"
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-blue-600 text-white rounded-xl font-medium hover:scale-105 transition-all duration-300"
+            >
+              <span className="mr-2">💰</span>
+              Vezi plățile →
+            </Link>
+          </div>
+        );
       case 'water-index':
         return renderWaterIndex();
       case 'documents':
         return (
           <div className="backdrop-blur-2xl bg-white/10 rounded-2xl p-6 border border-white/20">
             <h3 className="text-xl font-bold text-gray-800 mb-6">Documentele mele</h3>
-            <p className="text-gray-600">Sectiunea pentru documente va fi implementata aici.</p>
+            <p className="text-gray-600 mb-6">Accesează toate documentele asociației</p>
+            <Link
+              href="/documents"
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-xl font-medium hover:scale-105 transition-all duration-300"
+            >
+              <span className="mr-2">📄</span>
+              Vezi documentele →
+            </Link>
           </div>
         );
       case 'notifications':
         return (
-          <div className="space-y-6">
-            {/* Notification Filters */}
-            <div className="backdrop-blur-2xl bg-white/10 rounded-2xl p-6 border border-white/20">
-              <div className="flex flex-wrap items-center gap-4 mb-6">
-                <h3 className="text-xl font-bold text-gray-800">Notificari</h3>
-                <div className="flex items-center space-x-2">
-                  <button className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-medium">
-                    Toate (12)
-                  </button>
-                  <button className="px-4 py-2 bg-white/20 text-gray-700 rounded-lg text-sm font-medium hover:bg-white/30">
-                    Necitite (3)
-                  </button>
-                  <button className="px-4 py-2 bg-white/20 text-gray-700 rounded-lg text-sm font-medium hover:bg-white/30">
-                    Urgente (1)
-                  </button>
-                  <button className="px-4 py-2 bg-white/20 text-gray-700 rounded-lg text-sm font-medium hover:bg-white/30">
-                    Plati (2)
-                  </button>
-                </div>
-              </div>
-
-              {/* Quick Actions */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <button className="flex items-center justify-center space-x-2 p-3 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-xl hover:from-blue-500/30 hover:to-cyan-500/30 transition-all duration-300">
-                  <span className="text-lg">✅</span>
-                  <span className="text-gray-800 font-medium">Marcheaza toate ca citite</span>
-                </button>
-                <button className="flex items-center justify-center space-x-2 p-3 bg-gradient-to-r from-red-500/20 to-pink-500/20 rounded-xl hover:from-red-500/30 hover:to-pink-500/30 transition-all duration-300">
-                  <span className="text-lg">🗑️</span>
-                  <span className="text-gray-800 font-medium">Sterge notificarile citite</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Notifications List */}
-            <div className="backdrop-blur-2xl bg-white/10 rounded-2xl p-6 border border-white/20">
-              <div className="space-y-4">
-                {[
-                  {
-                    id: 1,
-                    title: "Intrerupere apa calda",
-                    message: "Informam ca marti 18.07.2024 se va intrerupe apa calda intre orele 9:00-17:00 pentru lucrari de mentenanta.",
-                    type: "warning",
-                    time: "2 ore",
-                    icon: "⚠️",
-                    read: false,
-                    priority: "high"
-                  },
-                  {
-                    id: 2,
-                    title: "Plata intretinere iulie",
-                    message: "Va amintim ca plata pentru intretinerea pe luna iulie este scadenta pe 31.07.2024. Suma de plata: 241.80 EUR",
-                    type: "payment",
-                    time: "1 zi",
-                    icon: "💳",
-                    read: false,
-                    priority: "medium"
-                  },
-                  {
-                    id: 3,
-                    title: "Adunare generala",
-                    message: "Adunarea generala a proprietarilor va avea loc pe 25.07.2024 la ora 18:00 in sala de conferinte.",
-                    type: "info",
-                    time: "3 zile",
-                    icon: "📅",
-                    read: true,
-                    priority: "medium"
-                  },
-                  {
-                    id: 4,
-                    title: "Actualizare regulament",
-                    message: "Regulamentul intern al asociatiei a fost actualizat. Puteti consulta noua versiune in sectiunea documente.",
-                    type: "info",
-                    time: "5 zile",
-                    icon: "📋",
-                    read: true,
-                    priority: "low"
-                  },
-                  {
-                    id: 5,
-                    title: "Problema urgenta - ascensor",
-                    message: "Ascensorul este defect si va fi reparat maine dimineata. Va rugam sa folositi scarile.",
-                    type: "urgent",
-                    time: "1 saptamana",
-                    icon: "🚨",
-                    read: false,
-                    priority: "high"
-                  }
-                ].map((notification) => (
-                  <div key={notification.id} className={`p-4 rounded-xl transition-all duration-300 ${
-                    notification.read ? 'bg-white/5 hover:bg-white/10' : 'bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 hover:border-blue-500/30'
-                  }`}>
-                    <div className="flex items-start space-x-4">
-                      <div className="flex-shrink-0">
-                        <div className={`text-2xl ${notification.read ? 'opacity-50' : ''}`}>
-                          {notification.icon}
-                        </div>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <h4 className={`font-medium ${notification.read ? 'text-gray-600' : 'text-gray-800'}`}>
-                            {notification.title}
-                          </h4>
-                          {!notification.read && (
-                            <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                          )}
-                          <span className={`px-2 py-1 rounded text-xs font-medium ${
-                            notification.type === 'urgent' ? 'bg-red-100 text-red-800' :
-                            notification.type === 'warning' ? 'bg-yellow-100 text-yellow-800' :
-                            notification.type === 'payment' ? 'bg-green-100 text-green-800' :
-                            'bg-blue-100 text-blue-800'
-                          }`}>
-                            {notification.type === 'urgent' ? 'Urgent' :
-                             notification.type === 'warning' ? 'Avertisment' :
-                             notification.type === 'payment' ? 'Plata' :
-                             'Informare'}
-                          </span>
-                        </div>
-                        <p className={`text-sm mb-3 ${notification.read ? 'text-gray-500' : 'text-gray-700'}`}>
-                          {notification.message}
-                        </p>
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs text-gray-500">{notification.time} in urma</span>
-                          <div className="flex items-center space-x-2">
-                            {!notification.read && (
-                              <button className="text-blue-600 hover:text-blue-700 text-sm font-medium transition-colors duration-300">
-                                Marchez ca citit
-                              </button>
-                            )}
-                            <button className="text-gray-500 hover:text-gray-700 text-sm transition-colors duration-300">
-                              Sterge
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Notification Statistics */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="backdrop-blur-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-2xl p-6 border border-blue-500/20">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-gray-600 text-sm">Total notificari</p>
-                    <p className="text-2xl font-bold text-gray-800">12</p>
-                    <p className="text-blue-600 text-sm">Toate</p>
-                  </div>
-                  <div className="text-3xl">📬</div>
-                </div>
-              </div>
-              <div className="backdrop-blur-2xl bg-gradient-to-br from-orange-500/10 to-red-500/10 rounded-2xl p-6 border border-orange-500/20">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-gray-600 text-sm">Necitite</p>
-                    <p className="text-2xl font-bold text-gray-800">3</p>
-                    <p className="text-orange-600 text-sm">Necesita atentie</p>
-                  </div>
-                  <div className="text-3xl">🔔</div>
-                </div>
-              </div>
-              <div className="backdrop-blur-2xl bg-gradient-to-br from-red-500/10 to-pink-500/10 rounded-2xl p-6 border border-red-500/20">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-gray-600 text-sm">Urgente</p>
-                    <p className="text-2xl font-bold text-gray-800">1</p>
-                    <p className="text-red-600 text-sm">Actiune necesara</p>
-                  </div>
-                  <div className="text-3xl">🚨</div>
-                </div>
-              </div>
-            </div>
+          <div className="backdrop-blur-2xl bg-white/10 rounded-2xl p-6 border border-white/20">
+            <h3 className="text-xl font-bold text-gray-800 mb-6">Notificarile mele</h3>
+            <p className="text-gray-600 mb-6">Gestionează toate notificările și alertele importante</p>
+            <Link
+              href="/notifications"
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-xl font-medium hover:scale-105 transition-all duration-300"
+            >
+              <span className="mr-2">🔔</span>
+              Vezi notificările →
+            </Link>
           </div>
         );
       case 'support':

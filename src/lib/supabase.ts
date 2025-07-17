@@ -43,10 +43,15 @@ export interface Payment {
   user_id: string
   amount: number
   description: string
-  status: 'pending' | 'paid' | 'failed'
+  category: 'monthly_fee' | 'utilities' | 'maintenance' | 'other'
+  status: 'pending' | 'paid' | 'overdue' | 'cancelled'
   due_date: string
-  paid_at?: string
+  paid_date?: string
+  payment_method?: 'cash' | 'bank_transfer' | 'card' | 'other'
+  transaction_id?: string
+  invoice_url?: string
   created_at: string
+  updated_at: string
 }
 
 export interface Notification {
@@ -54,7 +59,44 @@ export interface Notification {
   title: string
   message: string
   type: 'info' | 'warning' | 'error' | 'success'
-  target_users: string[] // array of user IDs
+  target_audience: 'all' | 'admins' | 'tenants' | 'specific'
+  target_users?: string[]
+  created_by?: string
+  read_by: string[]
+  expires_at?: string
   created_at: string
-  read_by: string[] // array of user IDs who read it
+  updated_at: string
+}
+
+export interface MaintenanceRequest {
+  id: string
+  user_id: string
+  title: string
+  description: string
+  category: 'plumbing' | 'electrical' | 'heating' | 'cleaning' | 'other'
+  priority: 'low' | 'medium' | 'high' | 'urgent'
+  status: 'pending' | 'in_progress' | 'completed' | 'cancelled'
+  assigned_to?: string
+  location: string
+  estimated_cost?: number
+  actual_cost?: number
+  completion_date?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Announcement {
+  id: string
+  title: string
+  content: string
+  author_id?: string
+  category: 'general' | 'maintenance' | 'event' | 'urgent'
+  priority: 'low' | 'normal' | 'high'
+  target_audience: 'all' | 'tenants' | 'owners'
+  publish_date: string
+  expires_at?: string
+  is_published: boolean
+  views_count: number
+  created_at: string
+  updated_at: string
 }

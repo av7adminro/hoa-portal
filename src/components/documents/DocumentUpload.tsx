@@ -53,7 +53,7 @@ export default function DocumentUpload({ onUploadComplete }: DocumentUploadProps
       const { error: uploadError } = await uploadFile(selectedFile, filePath);
       
       if (uploadError) {
-        setError('Eroare la incarcarea fisierului: ' + uploadError.message);
+        setError('Eroare la incarcarea fisierului: ' + (uploadError instanceof Error ? uploadError.message : 'Unknown error'));
         return;
       }
       
