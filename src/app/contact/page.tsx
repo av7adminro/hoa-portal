@@ -17,23 +17,37 @@ export default function Contact() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    console.log('Form submitted:', formData);
-    setIsSubmitting(false);
-    
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      apartment: '',
-      subject: '',
-      message: ''
-    });
-    
-    // Show success message (you can implement a toast here)
-    alert('Mesajul a fost trimis cu succes!');
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to send message');
+      }
+
+      // Reset form on success
+      setFormData({
+        name: '',
+        email: '',
+        apartment: '',
+        subject: '',
+        message: ''
+      });
+      
+      alert('Mesajul a fost trimis cu succes! Vă vom răspunde în cel mai scurt timp.');
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('Eroare la trimiterea mesajului. Vă rugăm să încercați din nou.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

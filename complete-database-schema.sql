@@ -274,15 +274,69 @@ INSERT INTO public.notifications (title, message, type, target_audience, created
     ('Întrerupere furnizare apă', 'Furnizarea apei va fi întreruptă mâine între 10:00-14:00 pentru lucrări de mentenanță.', 'warning', 'all', (SELECT id FROM profiles WHERE role = 'admin' LIMIT 1)),
     ('Plată restantă', 'Aveți plăți restante. Vă rugăm să efectuați plata cât mai curând posibil.', 'error', 'specific', (SELECT id FROM profiles WHERE role = 'admin' LIMIT 1));
 
+-- 6. CONTACT MESSAGES TABLE
+CREATE TABLE IF NOT EXISTS public.contact_messages (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    apartment TEXT NOT NULL,
+    subject TEXT NOT NULL,
+    message TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'new' CHECK (status IN ('new', 'in_progress', 'resolved', 'closed')),
+    response TEXT,
+    responded_by UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+    responded_at TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- INDEXES FOR CONTACT MESSAGES
+CREATE INDEX IF NOT EXISTS idx_contact_messages_status ON public.contact_messages(status);
+CREATE INDEX IF NOT EXISTS idx_contact_messages_created_at ON public.contact_messages(created_at);
+CREATE INDEX IF NOT EXISTS idx_contact_messages_email ON public.contact_messages(email);
+
+-- Contact messages policies
+ALTER TABLE public.contact_messages ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can insert contact messages" ON public.contact_messages
+    FOR INSERT WITH CHECK (true);
+
+CREATE POLICY "Admins can view all contact messages" ON public.contact_messages
+    FOR SELECT USING (
+        EXISTS (
+            SELECT 1 FROM profiles 
+            WHERE profiles.id = auth.uid() 
+            AND profiles.role = 'admin'
+        )
+    );
+
+CREATE POLICY "Users can view their own contact messages" ON public.contact_messages
+    FOR SELECT USING (email = (
+        SELECT email FROM profiles WHERE profiles.id = auth.uid()
+    ));
+
+CREATE POLICY "Admins can update contact messages" ON public.contact_messages
+    FOR UPDATE USING (
+        EXISTS (
+            SELECT 1 FROM profiles 
+            WHERE profiles.id = auth.uid() 
+            AND profiles.role = 'admin'
+        )
+    );
+
 -- GRANT PERMISSIONS
 GRANT ALL ON public.payments TO authenticated;
 GRANT ALL ON public.notifications TO authenticated;
 GRANT ALL ON public.water_indices TO authenticated;
 GRANT ALL ON public.maintenance_requests TO authenticated;
 GRANT ALL ON public.announcements TO authenticated;
+GRANT ALL ON public.contact_messages TO authenticated;
 
 GRANT ALL ON public.payments TO service_role;
 GRANT ALL ON public.notifications TO service_role;
 GRANT ALL ON public.water_indices TO service_role;
 GRANT ALL ON public.maintenance_requests TO service_role;
 GRANT ALL ON public.announcements TO service_role;
+GRANT ALL ON public.contact_messages TO service_role;
+
+GRANT INSERT ON public.contact_messages TO anon;

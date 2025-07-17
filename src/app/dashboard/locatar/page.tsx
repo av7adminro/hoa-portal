@@ -155,7 +155,8 @@ export default function TenantDashboard() {
         {[
           { title: 'Plateste factura', icon: '💰', action: 'Plateste acum', color: 'from-green-500/10 to-emerald-500/10', border: 'border-green-500/20', link: '/payments' },
           { title: 'Trimite index apa', icon: '📊', action: 'Trimite index', color: 'from-blue-500/10 to-cyan-500/10', border: 'border-blue-500/20' },
-          { title: 'Descarca documente', icon: '📥', action: 'Vezi documente', color: 'from-purple-500/10 to-pink-500/10', border: 'border-purple-500/20', link: '/documents' }
+          { title: 'Descarca documente', icon: '📥', action: 'Vezi documente', color: 'from-purple-500/10 to-pink-500/10', border: 'border-purple-500/20', link: '/documents' },
+          { title: 'Solicitare mentenanță', icon: '🔧', action: 'Creează solicitare', color: 'from-orange-500/10 to-red-500/10', border: 'border-orange-500/20', link: '/maintenance' }
         ].map((action, index) => (
           <div
             key={index}

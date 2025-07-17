@@ -114,7 +114,8 @@ export default function AdminDashboard() {
           { title: 'Adauga utilizator nou', icon: '👤', action: 'Creeaza cont', color: 'from-blue-500/10 to-cyan-500/10', border: 'border-blue-500/20', tab: 'users' },
           { title: 'Trimite notificare', icon: '📢', action: 'Compune mesaj', color: 'from-purple-500/10 to-pink-500/10', border: 'border-purple-500/20', link: '/notifications' },
           { title: 'Genereaza raport', icon: '📊', action: 'Exporta date', color: 'from-green-500/10 to-emerald-500/10', border: 'border-green-500/20', tab: 'reports' },
-          { title: 'Vezi documente', icon: '📄', action: 'Deschide', link: '/documents', color: 'from-indigo-500/10 to-blue-500/10', border: 'border-indigo-500/20' }
+          { title: 'Vezi documente', icon: '📄', action: 'Deschide', link: '/documents', color: 'from-indigo-500/10 to-blue-500/10', border: 'border-indigo-500/20' },
+          { title: 'Solicitări mentenanță', icon: '🔧', action: 'Gestionează', link: '/maintenance', color: 'from-orange-500/10 to-red-500/10', border: 'border-orange-500/20' }
         ].map((action, index) => (
           <div
             key={index}

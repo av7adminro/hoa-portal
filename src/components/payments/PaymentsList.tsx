@@ -60,7 +60,7 @@ export default function PaymentsList({ refreshTrigger, userRole }: PaymentsListP
 
   const updatePaymentStatus = async (paymentId: string, newStatus: string) => {
     try {
-      const updateData: any = { status: newStatus };
+      const updateData: Partial<Payment> = { status: newStatus as Payment['status'] };
       
       if (newStatus === 'paid') {
         updateData.paid_date = new Date().toISOString();

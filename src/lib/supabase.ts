@@ -100,3 +100,18 @@ export interface Announcement {
   created_at: string
   updated_at: string
 }
+
+export interface ContactMessage {
+  id: string
+  name: string
+  email: string
+  apartment: string
+  subject: string
+  message: string
+  status: 'new' | 'in_progress' | 'resolved' | 'closed'
+  response?: string
+  responded_by?: string
+  responded_at?: string
+  created_at: string
+  updated_at: string
+}
