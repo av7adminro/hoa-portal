@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 export default function SetupStorage() {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<{message: string, bucket: string, note?: string} | null>(null);
   const [error, setError] = useState('');
   const router = useRouter();
 
@@ -79,12 +79,12 @@ export default function SetupStorage() {
           <div className="mt-8 p-4 bg-yellow-500/20 border border-yellow-500/30 rounded-xl">
             <h3 className="text-lg font-semibold text-yellow-100 mb-2">Nota Importanta:</h3>
             <p className="text-yellow-100/90 text-sm">
-              Daca primesti eroare "Bucket not found", trebuie sa:
+              Daca primesti eroare &quot;Bucket not found&quot;, trebuie sa:
             </p>
             <ol className="list-decimal list-inside mt-2 space-y-1 text-yellow-100/90 text-sm">
               <li>Te loghezi in dashboard-ul Supabase</li>
               <li>Mergi la Storage → Create new bucket</li>
-              <li>Numele: "documents", Public: OFF</li>
+              <li>Numele: &quot;documents&quot;, Public: OFF</li>
               <li>Seteaza politicile RLS pentru authenticated users</li>
             </ol>
           </div>

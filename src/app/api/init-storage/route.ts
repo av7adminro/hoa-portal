@@ -39,27 +39,12 @@ export async function GET() {
         return NextResponse.json({ error: 'Error creating bucket: ' + createError.message }, { status: 500 });
       }
 
-      // Set up RLS policies for the bucket
-      const policies = [
-        {
-          name: 'Authenticated users can upload',
-          definition: 'bucket_id = \'documents\' AND auth.role() = \'authenticated\'',
-          operation: 'INSERT'
-        },
-        {
-          name: 'Authenticated users can view',
-          definition: 'bucket_id = \'documents\' AND auth.role() = \'authenticated\'',
-          operation: 'SELECT'
-        },
-        {
-          name: 'Users can delete their own files',
-          definition: 'bucket_id = \'documents\' AND auth.uid() = owner',
-          operation: 'DELETE'
-        }
-      ];
-
       // Note: RLS policies for storage need to be set up in Supabase dashboard
       // as they cannot be created via the client library
+      // Policies needed:
+      // - Authenticated users can upload (INSERT)
+      // - Authenticated users can view (SELECT)
+      // - Users can delete their own files (DELETE)
 
       return NextResponse.json({ 
         message: 'Storage bucket created successfully!',
