@@ -1,4 +1,5 @@
 import MainLayout from '../../components/layout/MainLayout';
+import Link from 'next/link';
 
 export default function About() {
   return (
@@ -259,12 +260,15 @@ export default function About() {
               Fii parte din aceasta transformare digitala si bucura-te de 
               beneficiile unei administrarii moderne si transparente.
             </p>
-            <button className="inline-flex items-center px-12 py-5 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold text-xl rounded-2xl shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1">
+            <Link
+              href="/login"
+              className="inline-flex items-center px-12 py-5 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold text-xl rounded-2xl shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1"
+            >
               Intra in platforma
               <svg className="ml-3 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
-            </button>
+            </Link>
           </div>
         </div>
       </section>

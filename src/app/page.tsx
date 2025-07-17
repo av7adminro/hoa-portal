@@ -1,20 +1,15 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import MainLayout from '../components/layout/MainLayout';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  const [scrollY, setScrollY] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     setIsLoaded(true);
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Pre-generated particles to avoid hydration mismatch
@@ -290,16 +285,6 @@ export default function Home() {
         </div>
       </section>
 
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(180deg); }
-        }
-        
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-      `}</style>
     </div>
   );
 }

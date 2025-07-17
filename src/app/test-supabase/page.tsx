@@ -4,7 +4,7 @@ import { supabase } from '../../lib/supabase';
 import { useEffect, useState } from 'react';
 
 export default function TestSupabase() {
-  const [status, setStatus] = useState<any>({});
+  const [status, setStatus] = useState<Record<string, unknown>>({});
   
   useEffect(() => {
     testConnection();
@@ -16,7 +16,7 @@ export default function TestSupabase() {
       setStatus(prev => ({ ...prev, initialized: !!supabase }));
       
       // Test 2: Try to fetch from a table
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('users')
         .select('count')
         .limit(1);
@@ -27,8 +27,8 @@ export default function TestSupabase() {
         error: error?.message 
       }));
       
-    } catch (err: any) {
-      setStatus(prev => ({ ...prev, error: err.message }));
+    } catch (err: unknown) {
+      setStatus(prev => ({ ...prev, error: err instanceof Error ? err.message : 'Unknown error' }));
     }
   };
 

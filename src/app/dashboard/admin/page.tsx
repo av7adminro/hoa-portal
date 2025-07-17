@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { AuthService } from '../../../lib/auth';
 import { supabase } from '../../../lib/supabase';
 import { useRouter } from 'next/navigation';
+import type { User } from '../../../lib/supabase';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     totalUsers: 0,
@@ -18,12 +19,7 @@ export default function AdminDashboard() {
   });
   const router = useRouter();
 
-  useEffect(() => {
-    checkAuth();
-    loadStats();
-  }, []);
-
-  const checkAuth = async () => {
+  const checkAuth = useCallback(async () => {
     const result = await AuthService.getCurrentUser();
     if (!result.success || result.profile?.role !== 'admin') {
       router.push('/login');
@@ -31,7 +27,12 @@ export default function AdminDashboard() {
     }
     setUser(result.profile);
     setLoading(false);
-  };
+  }, [router]);
+
+  useEffect(() => {
+    checkAuth();
+    loadStats();
+  }, [checkAuth]);
 
   const loadStats = async () => {
     try {
@@ -110,9 +111,9 @@ export default function AdminDashboard() {
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {[
-          { title: 'Adauga utilizator nou', icon: '👤', action: 'Creeaza cont', color: 'from-blue-500/10 to-cyan-500/10', border: 'border-blue-500/20' },
-          { title: 'Trimite notificare', icon: '📢', action: 'Compune mesaj', color: 'from-purple-500/10 to-pink-500/10', border: 'border-purple-500/20' },
-          { title: 'Genereaza raport', icon: '📊', action: 'Exporta date', color: 'from-green-500/10 to-emerald-500/10', border: 'border-green-500/20' },
+          { title: 'Adauga utilizator nou', icon: '👤', action: 'Creeaza cont', color: 'from-blue-500/10 to-cyan-500/10', border: 'border-blue-500/20', tab: 'users' },
+          { title: 'Trimite notificare', icon: '📢', action: 'Compune mesaj', color: 'from-purple-500/10 to-pink-500/10', border: 'border-purple-500/20', tab: 'notifications' },
+          { title: 'Genereaza raport', icon: '📊', action: 'Exporta date', color: 'from-green-500/10 to-emerald-500/10', border: 'border-green-500/20', tab: 'reports' },
           { title: 'Vezi documente', icon: '📄', action: 'Deschide', link: '/documents', color: 'from-indigo-500/10 to-blue-500/10', border: 'border-indigo-500/20' }
         ].map((action, index) => (
           <div
@@ -120,9 +121,11 @@ export default function AdminDashboard() {
             onClick={() => {
               if (action.link) {
                 router.push(action.link);
+              } else if (action.tab) {
+                setActiveTab(action.tab);
               }
             }}
-            className={`backdrop-blur-2xl bg-gradient-to-br ${action.color} rounded-2xl p-6 border ${action.border} hover:border-white/30 transition-all duration-300 hover:bg-white/20 group cursor-pointer transform hover:scale-105 shadow-lg hover:shadow-2xl`}
+            className={`backdrop-blur-2xl bg-gradient-to-br ${action.color} rounded-2xl p-6 border ${action.border} hover:border-white/30 transition-all duration-300 hover:bg-white/20 group cursor-pointer transform hover:scale-105 shadow-lg hover:shadow-2xl ${action.tab && activeTab === action.tab ? 'ring-2 ring-blue-500' : ''}`}
           >
             <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
               {action.icon}
@@ -227,9 +230,189 @@ export default function AdminDashboard() {
         );
       case 'notifications':
         return (
-          <div className="backdrop-blur-2xl bg-white/10 rounded-2xl p-6 border border-white/20">
-            <h3 className="text-xl font-bold text-gray-800 mb-6">Gestionare notificari</h3>
-            <p className="text-gray-600">Sectiunea pentru trimiterea notificarilor va fi implementata aici.</p>
+          <div className="space-y-6">
+            {/* Create New Notification */}
+            <div className="backdrop-blur-2xl bg-white/10 rounded-2xl p-6 border border-white/20">
+              <h3 className="text-xl font-bold text-gray-800 mb-6">Creaza notificare noua</h3>
+              <form className="space-y-4">
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Titlu notificare
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
+                    placeholder="Introduceti titlul notificarii"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Mesaj
+                  </label>
+                  <textarea
+                    className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300 h-32"
+                    placeholder="Introduceti mesajul notificarii"
+                  />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-gray-700 font-medium mb-2">
+                      Tip notificare
+                    </label>
+                    <select className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-gray-800 focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300">
+                      <option value="info">Informare</option>
+                      <option value="warning">Avertisment</option>
+                      <option value="urgent">Urgent</option>
+                      <option value="payment">Plata</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 font-medium mb-2">
+                      Destinatari
+                    </label>
+                    <select className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-gray-800 focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300">
+                      <option value="all">Toti locatarii</option>
+                      <option value="floor1">Etaj 1</option>
+                      <option value="floor2">Etaj 2</option>
+                      <option value="floor3">Etaj 3</option>
+                      <option value="custom">Personalizat</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <button
+                    type="submit"
+                    className="bg-gradient-to-r from-blue-500 to-cyan-600 text-white px-8 py-3 rounded-2xl font-bold hover:scale-105 transition-all duration-300"
+                  >
+                    Trimite notificare
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-gradient-to-r from-gray-500 to-gray-600 text-white px-8 py-3 rounded-2xl font-bold hover:scale-105 transition-all duration-300"
+                  >
+                    Programeaza
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            {/* Notifications History */}
+            <div className="backdrop-blur-2xl bg-white/10 rounded-2xl p-6 border border-white/20">
+              <h3 className="text-xl font-bold text-gray-800 mb-6">Notificari trimise</h3>
+              <div className="space-y-4">
+                {[
+                  {
+                    id: 1,
+                    title: "Intrerupere apa calda",
+                    message: "Informam ca marti 18.07.2024 se va intrerupe apa calda intre orele 9:00-17:00",
+                    type: "warning",
+                    recipients: "Toti locatarii",
+                    sent_at: "2024-07-17 10:30",
+                    read_by: 15,
+                    total_recipients: 24
+                  },
+                  {
+                    id: 2,
+                    title: "Plata intretinere iulie",
+                    message: "Va amintim ca plata pentru intretinerea pe luna iulie este scadenta pe 31.07.2024",
+                    type: "payment",
+                    recipients: "Toti locatarii",
+                    sent_at: "2024-07-16 14:20",
+                    read_by: 18,
+                    total_recipients: 24
+                  },
+                  {
+                    id: 3,
+                    title: "Adunare generala",
+                    message: "Adunarea generala a proprietarilor va avea loc pe 25.07.2024 la ora 18:00",
+                    type: "info",
+                    recipients: "Toti locatarii",
+                    sent_at: "2024-07-15 16:45",
+                    read_by: 22,
+                    total_recipients: 24
+                  }
+                ].map((notification) => (
+                  <div key={notification.id} className="p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center space-x-3">
+                        <div className={`w-3 h-3 rounded-full ${
+                          notification.type === 'urgent' ? 'bg-red-500' :
+                          notification.type === 'warning' ? 'bg-yellow-500' :
+                          notification.type === 'payment' ? 'bg-green-500' :
+                          'bg-blue-500'
+                        }`}></div>
+                        <div>
+                          <h4 className="text-gray-800 font-medium">{notification.title}</h4>
+                          <p className="text-gray-600 text-sm mt-1">{notification.message}</p>
+                        </div>
+                      </div>
+                      <span className="text-gray-500 text-xs">{notification.sent_at}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center space-x-4">
+                        <span className="text-gray-600">Destinatari: {notification.recipients}</span>
+                        <span className={`px-2 py-1 rounded text-xs ${
+                          notification.type === 'urgent' ? 'bg-red-100 text-red-800' :
+                          notification.type === 'warning' ? 'bg-yellow-100 text-yellow-800' :
+                          notification.type === 'payment' ? 'bg-green-100 text-green-800' :
+                          'bg-blue-100 text-blue-800'
+                        }`}>
+                          {notification.type === 'urgent' ? 'Urgent' :
+                           notification.type === 'warning' ? 'Avertisment' :
+                           notification.type === 'payment' ? 'Plata' :
+                           'Informare'}
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-gray-500">
+                          Citit: {notification.read_by}/{notification.total_recipients}
+                        </span>
+                        <div className="w-16 bg-gray-200 rounded-full h-2">
+                          <div 
+                            className="bg-blue-500 h-2 rounded-full" 
+                            style={{ width: `${(notification.read_by / notification.total_recipients) * 100}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Quick Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="backdrop-blur-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-2xl p-6 border border-blue-500/20">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-gray-600 text-sm">Notificari trimise</p>
+                    <p className="text-2xl font-bold text-gray-800">24</p>
+                    <p className="text-blue-600 text-sm">Luna aceasta</p>
+                  </div>
+                  <div className="text-3xl">📤</div>
+                </div>
+              </div>
+              <div className="backdrop-blur-2xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-2xl p-6 border border-green-500/20">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-gray-600 text-sm">Rata de citire</p>
+                    <p className="text-2xl font-bold text-gray-800">87%</p>
+                    <p className="text-green-600 text-sm">Medie</p>
+                  </div>
+                  <div className="text-3xl">📊</div>
+                </div>
+              </div>
+              <div className="backdrop-blur-2xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-2xl p-6 border border-purple-500/20">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-gray-600 text-sm">Notificari urgente</p>
+                    <p className="text-2xl font-bold text-gray-800">3</p>
+                    <p className="text-red-600 text-sm">Nerezolvate</p>
+                  </div>
+                  <div className="text-3xl">🚨</div>
+                </div>
+              </div>
+            </div>
           </div>
         );
       case 'reports':

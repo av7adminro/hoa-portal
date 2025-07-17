@@ -14,86 +14,110 @@ export interface RegisterData {
   apartment_number: string
 }
 
-// Demo users pentru testare
-const DEMO_USERS = {
-  'admin@asociatia.ro': { 
-    password: 'admin123', 
-    role: 'admin' as const, 
-    full_name: 'Administrator Demo',
-    apartment_number: 'Admin'
-  },
-  'locatar@asociatia.ro': { 
-    password: 'locatar123', 
-    role: 'tenant' as const,
-    full_name: 'Ion Popescu', 
-    apartment_number: 'Ap. 15'
-  }
-};
-
 export class AuthService {
   // Login function
   static async login(credentials: LoginCredentials) {
     try {
-      // Check demo users first
-      const demoUser = DEMO_USERS[credentials.email as keyof typeof DEMO_USERS];
-      if (demoUser && demoUser.password === credentials.password) {
-        // Simulate successful login
-        const userId = credentials.email === 'admin@asociatia.ro' ? 'admin-123' : 'tenant-456';
-        
-        // Store user in localStorage
-        localStorage.setItem('currentUser', JSON.stringify({
-          id: userId,
-          email: credentials.email,
-          ...demoUser
-        }));
-        
+      // Sign in with Supabase
+      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+        email: credentials.email,
+        password: credentials.password
+      });
+
+      if (authError) {
         return {
-          success: true,
-          user: { id: userId, email: credentials.email },
-          profile: {
-            id: userId,
-            email: credentials.email,
-            full_name: demoUser.full_name,
-            apartment_number: demoUser.apartment_number,
-            role: demoUser.role,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          } as User
+          success: false,
+          error: authError.message
         };
       }
 
-      // If not demo user, return error
+      if (!authData.user) {
+        return {
+          success: false,
+          error: 'Login failed'
+        };
+      }
+
+      // Get user profile
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', authData.user.id)
+        .single();
+
+      if (profileError) {
+        return {
+          success: false,
+          error: 'Failed to load user profile'
+        };
+      }
+
       return {
-        success: false,
-        error: 'Email sau parola incorecte'
+        success: true,
+        user: { id: authData.user.id, email: authData.user.email },
+        profile: profile as User
       };
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       return {
         success: false,
-        error: error.message || 'Login failed'
+        error: error instanceof Error ? error.message : 'Login failed'
       }
     }
   }
 
   // Register function (for admins to create tenant accounts)
   static async register(userData: RegisterData) {
-    // Demo implementation
-    return {
-      success: false,
-      error: 'Registration is disabled in demo mode'
-    };
+    try {
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: userData.email,
+        password: userData.password,
+        options: {
+          data: {
+            full_name: userData.full_name,
+            apartment_number: userData.apartment_number,
+            role: 'tenant'
+          }
+        }
+      });
+
+      if (authError) {
+        return {
+          success: false,
+          error: authError.message
+        };
+      }
+
+      return {
+        success: true,
+        user: authData.user,
+        message: 'User created successfully'
+      };
+    } catch (error: unknown) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Registration failed'
+      }
+    }
   }
 
   // Logout function
   static async logout() {
     try {
-      localStorage.removeItem('currentUser');
-      return { success: true }
-    } catch (error: any) {
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) {
+        return {
+          success: false,
+          error: error.message
+        };
+      }
+
+      return { success: true };
+    } catch (error: unknown) {
       return {
         success: false,
-        error: error.message || 'Logout failed'
+        error: error instanceof Error ? error.message : 'Logout failed'
       }
     }
   }
@@ -101,33 +125,62 @@ export class AuthService {
   // Get current user
   static async getCurrentUser() {
     try {
-      const storedUser = localStorage.getItem('currentUser');
+      const { data: { user }, error } = await supabase.auth.getUser();
       
-      if (!storedUser) {
+      if (error || !user) {
         return { success: false, user: null };
       }
 
-      const userData = JSON.parse(storedUser);
-      
+      // Get user profile
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (profileError) {
+        return {
+          success: false,
+          error: 'Failed to load user profile'
+        };
+      }
+
       return {
         success: true,
-        user: { id: userData.id, email: userData.email },
-        profile: userData as User
+        user: { id: user.id, email: user.email },
+        profile: profile as User
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       return {
         success: false,
-        error: error.message || 'Failed to get current user'
+        error: error instanceof Error ? error.message : 'Failed to get current user'
       }
     }
   }
 
   // Reset password
   static async resetPassword(email: string) {
-    // Demo implementation
-    return { 
-      success: true,
-      message: 'Demo mode: Password reset email would be sent to ' + email
-    };
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`
+      });
+
+      if (error) {
+        return {
+          success: false,
+          error: error.message
+        };
+      }
+
+      return { 
+        success: true,
+        message: 'Password reset email sent to ' + email
+      };
+    } catch (error: unknown) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Password reset failed'
+      }
+    }
   }
 }

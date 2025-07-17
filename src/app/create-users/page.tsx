@@ -10,7 +10,7 @@ export default function CreateUsers() {
     setStatus('Creating users...');
 
     // Create admin
-    const { data: admin, error: adminError } = await supabase.auth.signUp({
+    const { error: adminError } = await supabase.auth.signUp({
       email: 'admin@asociatia.ro',
       password: 'admin123',
     });
@@ -21,7 +21,7 @@ export default function CreateUsers() {
     }
 
     // Create tenant
-    const { data: tenant, error: tenantError } = await supabase.auth.signUp({
+    const { error: tenantError } = await supabase.auth.signUp({
       email: 'locatar@asociatia.ro',
       password: 'locatar123',
     });
