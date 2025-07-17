@@ -43,20 +43,9 @@ export default function DocumentUpload({ onUploadComplete }: DocumentUploadProps
         return;
       }
 
-      // Upload file to storage
-      const fileExt = selectedFile.name.split('.').pop();
-      const fileName = `${Date.now()}.${fileExt}`;
-      const filePath = `documents/${fileName}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from('documents')
-        .upload(filePath, selectedFile);
-
-      if (uploadError) {
-        setError('Eroare la incarcarea fisierului: ' + uploadError.message);
-        return;
-      }
-
+      // Temporary: Save document metadata without actual file storage
+      const filePath = `documents/${selectedFile.name}`;
+      
       // Save document metadata to database
       const { error: dbError } = await supabase
         .from('documents')
