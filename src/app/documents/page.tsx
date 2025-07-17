@@ -7,6 +7,7 @@ import { AuthService } from '../../lib/auth';
 import type { User } from '../../lib/supabase';
 import DocumentUpload from '../../components/documents/DocumentUpload';
 import DocumentsList from '../../components/documents/DocumentsList';
+import DisableRLSGuide from './DisableRLSGuide';
 
 export default function DocumentsPage() {
   const [user, setUser] = useState<User | null>(null);
@@ -97,6 +98,7 @@ export default function DocumentsPage() {
           {user?.role === 'admin' && (
             <div className="lg:col-span-1">
               <div className="sticky top-32">
+                <DisableRLSGuide />
                 <DocumentUpload onUploadComplete={handleUploadComplete} />
               </div>
             </div>
