@@ -4,14 +4,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { AuthService } from '../../lib/auth';
-import type { User, Payment } from '../../lib/supabase';
-import { supabase } from '../../lib/supabase';
+import type { User } from '../../lib/supabase';
 import PaymentForm from '../../components/payments/PaymentForm';
 import PaymentsList from '../../components/payments/PaymentsList';
 
 export default function PaymentsPage() {
   const [user, setUser] = useState<User | null>(null);
-  const [payments, setPayments] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const router = useRouter();

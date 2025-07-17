@@ -70,7 +70,7 @@ export default function DocumentsList({ refreshTrigger }: DocumentsListProps) {
       const { data, error } = await downloadFile(filePath);
       
       if (error) {
-        alert('Eroare la descarcarea documentului: ' + error.message);
+        alert('Eroare la descarcarea documentului: ' + (error instanceof Error ? error.message : 'Eroare necunoscută'));
         return;
       }
       
@@ -100,7 +100,7 @@ export default function DocumentsList({ refreshTrigger }: DocumentsListProps) {
       const { error: storageError } = await deleteFile(filePath);
       
       if (storageError) {
-        alert('Eroare la stergerea fisierului: ' + storageError.message);
+        alert('Eroare la stergerea fisierului: ' + (storageError instanceof Error ? storageError.message : 'Eroare necunoscută'));
         return;
       }
       

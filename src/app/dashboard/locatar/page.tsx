@@ -79,12 +79,6 @@ export default function TenantDashboard() {
     { id: 'support', label: 'Suport', icon: '💬' }
   ];
 
-  const payments = [
-    { date: '2024-05-01', amount: '€241.80', status: 'Neachitat', type: 'Intretinere' },
-    { date: '2024-04-01', amount: '€245.50', status: 'Platit', type: 'Intretinere' },
-    { date: '2024-03-01', amount: '€238.20', status: 'Platit', type: 'Intretinere' },
-    { date: '2024-02-01', amount: '€252.10', status: 'Platit', type: 'Intretinere' }
-  ];
 
   const waterIndexHistory = [
     { month: 'Aprilie 2024', index: '1250', consumption: '45L', status: 'Trimis' },
@@ -198,55 +192,6 @@ export default function TenantDashboard() {
     </div>
   );
 
-  const renderPayments = () => (
-    <div className="space-y-6">
-      {/* Current Bill */}
-      <div className="backdrop-blur-2xl bg-gradient-to-br from-red-500/10 to-pink-500/10 rounded-2xl p-6 border border-red-500/20 shadow-2xl">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-xl font-bold text-gray-800">Factura curenta</h3>
-          <span className="bg-red-500/20 text-red-700 px-3 py-1 rounded-full text-sm font-medium">
-            Neachitat
-          </span>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <p className="text-gray-600 mb-2">Suma de plata</p>
-            <p className="text-3xl font-bold text-gray-800 mb-4">€241.80</p>
-            <p className="text-gray-500 text-sm">Scadenta: 31 Mai 2024</p>
-          </div>
-          <div className="flex items-center justify-end">
-            <button className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-3 rounded-2xl font-bold hover:scale-105 transition-all duration-300">
-              Plateste acum
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Payment History */}
-      <div className="backdrop-blur-2xl bg-white/10 rounded-2xl p-6 border border-white/20">
-        <h3 className="text-xl font-bold text-gray-800 mb-6">Istoric plati</h3>
-        <div className="space-y-4">
-          {payments.map((payment, index) => (
-            <div key={index} className="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300">
-              <div className="flex items-center space-x-4">
-                <div className={`w-3 h-3 rounded-full ${payment.status === 'Platit' ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                <div>
-                  <p className="text-gray-800 font-medium">{payment.type}</p>
-                  <p className="text-gray-500 text-sm">{payment.date}</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className="text-gray-800 font-bold">{payment.amount}</p>
-                <p className={`text-sm font-medium ${payment.status === 'Platit' ? 'text-green-600' : 'text-red-600'}`}>
-                  {payment.status}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
 
   const renderWaterIndex = () => (
     <div className="space-y-6">
