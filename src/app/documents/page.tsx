@@ -25,9 +25,21 @@ export default function DocumentsPage() {
     setLoading(false);
   }, [router]);
 
+  const initializeStorage = useCallback(async () => {
+    try {
+      const response = await fetch('/api/init-storage');
+      if (!response.ok) {
+        console.warn('Storage initialization failed, but continuing...');
+      }
+    } catch (error) {
+      console.warn('Storage initialization error:', error);
+    }
+  }, []);
+
   useEffect(() => {
     checkAuth();
-  }, [checkAuth]);
+    initializeStorage();
+  }, [checkAuth, initializeStorage]);
 
   const handleLogout = async () => {
     await AuthService.logout();
@@ -40,26 +52,26 @@ export default function DocumentsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Se incarca...</p>
+          <p className="text-white">Se incarca...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Background Effects */}
       <div className="fixed inset-0 z-0">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-200/40 to-purple-200/40 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-1/2 right-0 w-80 h-80 bg-gradient-to-br from-pink-200/40 to-orange-200/40 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute bottom-0 left-1/2 w-72 h-72 bg-gradient-to-br from-green-200/40 to-blue-200/40 rounded-full blur-3xl animate-pulse delay-2000"></div>
+        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/2 right-0 w-80 h-80 bg-gradient-to-br from-pink-500/20 to-orange-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-0 left-1/2 w-72 h-72 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
       </div>
 
       {/* Header */}
-      <div className="relative z-10 backdrop-blur-2xl bg-white/10 border-b border-white/20 sticky top-0">
+      <div className="relative z-10 backdrop-blur-2xl bg-black/20 border-b border-white/20 sticky top-0">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -69,16 +81,16 @@ export default function DocumentsPage() {
                 </div>
               </Link>
               <div>
-                <h1 className="text-3xl font-bold text-gray-800">
-                  <span className="text-blue-600">📄</span> Documente
+                <h1 className="text-3xl font-bold text-white">
+                  <span className="text-blue-400">📄</span> Documente
                 </h1>
-                <p className="text-gray-600 mt-1">Gestionarea documentelor asociatiei</p>
+                <p className="text-white mt-1">Gestionarea documentelor asociatiei</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
               <div className="text-right">
-                <p className="text-sm text-gray-600">{user?.role === 'admin' ? 'Administrator' : 'Locatar'}</p>
-                <p className="font-medium text-gray-800">{user?.full_name}</p>
+                <p className="text-sm text-white">{user?.role === 'admin' ? 'Administrator' : 'Locatar'}</p>
+                <p className="font-medium text-white">{user?.full_name}</p>
               </div>
               <button 
                 onClick={handleLogout}
