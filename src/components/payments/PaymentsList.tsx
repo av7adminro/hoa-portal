@@ -116,8 +116,8 @@ export default function PaymentsList({ refreshTrigger, userRole }: PaymentsListP
       case 'paid': return 'bg-green-100 text-green-800';
       case 'pending': return 'bg-yellow-100 text-yellow-800';
       case 'overdue': return 'bg-red-100 text-red-800';
-      case 'cancelled': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'cancelled': return 'bg-white text-white';
+      default: return 'bg-white text-white';
     }
   };
 
@@ -188,11 +188,11 @@ export default function PaymentsList({ refreshTrigger, userRole }: PaymentsListP
             onChange={(e) => setFilter(e.target.value)}
             className="px-4 py-2 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-white focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
           >
-            <option value="all" className="text-gray-900">Toate statusurile</option>
-            <option value="pending" className="text-gray-900">În așteptare</option>
-            <option value="paid" className="text-gray-900">Plătite</option>
-            <option value="overdue" className="text-gray-900">Restante</option>
-            <option value="cancelled" className="text-gray-900">Anulate</option>
+            <option value="all" className="text-white">Toate statusurile</option>
+            <option value="pending" className="text-white">În așteptare</option>
+            <option value="paid" className="text-white">Plătite</option>
+            <option value="overdue" className="text-white">Restante</option>
+            <option value="cancelled" className="text-white">Anulate</option>
           </select>
         </div>
       </div>

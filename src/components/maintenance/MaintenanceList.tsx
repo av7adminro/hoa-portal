@@ -19,32 +19,99 @@ export default function MaintenanceList({ refreshTrigger, userRole }: Maintenanc
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [filter, setFilter] = useState('all');
+  const [isTableMissing, setIsTableMissing] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(false);
 
   useEffect(() => {
     loadRequests();
   }, [refreshTrigger]);
 
+  const initializeTable = async () => {
+    setIsInitializing(true);
+    try {
+      const response = await fetch('/api/init-maintenance', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        if (data.sql) {
+          // Show the SQL in a dialog or copy to clipboard
+          const textarea = document.createElement('textarea');
+          textarea.value = data.sql;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+          alert('SQL-ul a fost copiat în clipboard! Mergi la Supabase Dashboard > SQL Editor și lipește-l acolo.');
+        } else {
+          alert('Tabela a fost inițializată cu succes!');
+          setIsTableMissing(false);
+          setError('');
+          loadRequests();
+        }
+      } else {
+        alert('Eroare la inițializarea tabelei: ' + (data.error || 'Eroare necunoscută'));
+      }
+    } catch (error) {
+      alert('Eroare la inițializarea tabelei: ' + (error instanceof Error ? error.message : 'Eroare'));
+    } finally {
+      setIsInitializing(false);
+    }
+  };
+
   const loadRequests = async () => {
     try {
       setLoading(true);
       
-      const { data, error } = await supabase
+      // First get the maintenance requests
+      const { data: maintenanceData, error: maintenanceError } = await supabase
         .from('maintenance_requests')
-        .select(`
-          *,
-          profiles:user_id (
-            full_name,
-            apartment_number
-          )
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) {
-        setError('Eroare la încărcarea solicitărilor: ' + error.message);
+      if (maintenanceError) {
+        console.log('Maintenance error:', maintenanceError);
+        if (maintenanceError.message && maintenanceError.message.includes('relation "public.maintenance_requests" does not exist')) {
+          setIsTableMissing(true);
+          setError('Tabela pentru solicitări nu există. Administratorul trebuie să o configureze.');
+          console.log('Table missing set to true');
+        } else {
+          setError('Eroare la încărcarea solicitărilor: ' + maintenanceError.message);
+        }
         return;
       }
 
-      const requestsWithUser = data.map(request => ({
+      // Then get the user profiles for each request
+      const userIds = [...new Set(maintenanceData?.map(req => req.user_id).filter(Boolean) || [])];
+      
+      const { data: profilesData, error: profilesError } = await supabase
+        .from('profiles')
+        .select('id, full_name, apartment_number')
+        .in('id', userIds);
+
+      if (profilesError) {
+        console.error('Error loading profiles:', profilesError);
+      }
+
+      // Create a map of user profiles
+      const profilesMap = new Map();
+      profilesData?.forEach(profile => {
+        profilesMap.set(profile.id, profile);
+      });
+
+      // Combine the data
+      const data = maintenanceData?.map(request => ({
+        ...request,
+        profiles: profilesMap.get(request.user_id) || null
+      }));
+
+
+      const requestsWithUser = (data || []).map(request => ({
         ...request,
         user_name: request.profiles?.full_name || 'Utilizator necunoscut',
         apartment_number: request.profiles?.apartment_number || 'N/A'
@@ -119,7 +186,7 @@ export default function MaintenanceList({ refreshTrigger, userRole }: Maintenanc
       case 'in_progress': return 'bg-blue-100 text-blue-800';
       case 'completed': return 'bg-green-100 text-green-800';
       case 'cancelled': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      default: return 'bg-white text-white';
     }
   };
 
@@ -135,11 +202,11 @@ export default function MaintenanceList({ refreshTrigger, userRole }: Maintenanc
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'low': return 'bg-gray-100 text-gray-800';
+      case 'low': return 'bg-white text-white';
       case 'medium': return 'bg-blue-100 text-blue-800';
       case 'high': return 'bg-orange-100 text-orange-800';
       case 'urgent': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      default: return 'bg-white text-white';
     }
   };
 
@@ -219,6 +286,30 @@ export default function MaintenanceList({ refreshTrigger, userRole }: Maintenanc
       {error && (
         <div className="mb-4 p-4 bg-red-500/20 border border-red-500/30 rounded-xl text-red-100">
           {error}
+          {(isTableMissing || error.includes('nu există')) && userRole === 'admin' && (
+            <div className="mt-4">
+              <p className="text-sm mb-2">Pentru a configura tabela:</p>
+              <button
+                onClick={initializeTable}
+                disabled={isInitializing}
+                className="mt-3 px-4 py-2 bg-blue-500/20 text-blue-100 rounded-lg hover:bg-blue-500/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isInitializing ? 'Se pregătește...' : 'Copiază SQL în clipboard'}
+              </button>
+              <p className="text-xs mt-3">Sau manual:</p>
+              <ol className="text-sm list-decimal list-inside space-y-1">
+                <li>Accesați Supabase Dashboard</li>
+                <li>Mergeți la SQL Editor</li>
+                <li>Executați scriptul din fișierul create-maintenance-table.sql</li>
+              </ol>
+            </div>
+          )}
+          {/* Debug info - remove later */}
+          {userRole === 'admin' && (
+            <div className="mt-2 text-xs text-blue-200">
+              Debug: isTableMissing={isTableMissing ? 'true' : 'false'}, userRole={userRole}
+            </div>
+          )}
         </div>
       )}
 

@@ -44,10 +44,10 @@ export default function MaintenancePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-400 via-red-500 to-pink-500 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-white text-lg">Se încarcă...</p>
+          <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-white">Se încarcă...</p>
         </div>
       </div>
     );
@@ -58,11 +58,17 @@ export default function MaintenancePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-400 via-red-500 to-pink-500">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      {/* Background Effects */}
+      <div className="fixed inset-0 z-0">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/2 right-0 w-80 h-80 bg-gradient-to-br from-pink-500/20 to-orange-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-0 left-1/2 w-72 h-72 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
+      </div>
+
       {/* Header */}
-      <div className="relative">
-        <div className="absolute inset-0 bg-black/20 backdrop-blur-sm"></div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 py-6">
+      <div className="relative z-10 backdrop-blur-2xl bg-black/20 border-b border-white/20 sticky top-0">
+        <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Link href={user?.role === 'admin' ? '/dashboard/admin' : '/dashboard/locatar'}>
@@ -72,21 +78,21 @@ export default function MaintenancePage() {
               </Link>
               <div>
                 <h1 className="text-3xl font-bold text-white">
-                  <span className="text-orange-300">🔧</span> Solicitări Mentenanță
+                  <span className="text-blue-400">🔧</span> Solicitări Mentenanță
                 </h1>
-                <p className="text-white/80 mt-1">Gestionarea cererilor de reparații și mentenanță</p>
+                <p className="text-white mt-1">Gestionarea cererilor de reparații și mentenanță</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
               <div className="text-right">
-                <p className="text-sm text-white/60">{user?.role === 'admin' ? 'Administrator' : 'Locatar'}</p>
+                <p className="text-sm text-white">{user?.role === 'admin' ? 'Administrator' : 'Locatar'}</p>
                 <p className="font-medium text-white">{user?.full_name}</p>
               </div>
               <button 
                 onClick={handleLogout}
-                className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center hover:bg-white/30 transition-colors"
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition-all duration-300"
               >
-                <span className="text-white font-bold">⚡</span>
+                Logout
               </button>
             </div>
           </div>

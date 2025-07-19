@@ -101,19 +101,34 @@ export async function deleteFile(path: string) {
 
 export async function downloadFile(path: string) {
   try {
+    // First check if bucket exists
+    const { data: buckets, error: bucketError } = await supabase.storage.listBuckets();
+    
+    if (bucketError || !buckets?.some(b => b.name === STORAGE_BUCKET)) {
+      return { 
+        error: new Error('Storage bucket not found. Please contact administrator to set up storage.') 
+      };
+    }
+
     const { data, error } = await supabase.storage
       .from(STORAGE_BUCKET)
       .download(path);
 
     if (error) {
       console.error('Download error:', error);
-      return { error };
+      // Return a proper Error object
+      return { error: new Error(error.message || 'Failed to download file') };
+    }
+
+    if (!data) {
+      return { error: new Error('No data received from storage') };
     }
 
     return { data };
   } catch (error) {
     console.error('Download exception:', error);
-    return { error };
+    // Ensure we always return an Error object
+    return { error: error instanceof Error ? error : new Error('Unknown download error') };
   }
 }
 

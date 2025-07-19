@@ -32,7 +32,7 @@ cd /var/www/hoa-portal
 
 # Instalează dependențele
 echo "📦 Instalez dependențele..."
-npm ci --only=production
+npm ci
 
 # Construiește aplicația
 echo "🔨 Construiesc aplicația..."

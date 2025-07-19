@@ -48,7 +48,11 @@ export default function MaintenanceForm({ onRequestComplete }: MaintenanceFormPr
         });
 
       if (insertError) {
-        setError('Eroare la crearea solicitării: ' + insertError.message);
+        if (insertError.message && insertError.message.includes('relation "public.maintenance_requests" does not exist')) {
+          setError('Tabela pentru solicitări nu există. Contactați administratorul pentru a configura baza de date.');
+        } else {
+          setError('Eroare la crearea solicitării: ' + (insertError.message || 'Eroare necunoscută'));
+        }
         return;
       }
 
@@ -65,7 +69,12 @@ export default function MaintenanceForm({ onRequestComplete }: MaintenanceFormPr
 
       alert('Solicitarea a fost creată cu succes!');
     } catch (error) {
-      setError('Eroare necunoscută: ' + (error instanceof Error ? error.message : 'Eroare'));
+      console.error('Error in handleSubmit:', error);
+      if (error instanceof Error) {
+        setError('Eroare: ' + error.message);
+      } else {
+        setError('A apărut o eroare necunoscută. Vă rugăm să încercați din nou.');
+      }
     } finally {
       setSubmitting(false);
     }
@@ -106,7 +115,7 @@ export default function MaintenanceForm({ onRequestComplete }: MaintenanceFormPr
             className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-white focus:outline-none focus:border-orange-500 focus:bg-white/30 transition-all duration-300"
             required
           >
-            <option value="">Selectează categoria</option>
+            <option value="" className="text-gray-900">Selectează categoria</option>
             <option value="plumbing" className="text-gray-900">Instalații sanitare</option>
             <option value="electrical" className="text-gray-900">Instalații electrice</option>
             <option value="heating" className="text-gray-900">Încălzire</option>

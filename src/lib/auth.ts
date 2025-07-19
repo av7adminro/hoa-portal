@@ -46,6 +46,34 @@ export class AuthService {
         .single();
 
       if (profileError) {
+        // If profile doesn't exist, try to create it from auth user metadata
+        if (profileError.code === 'PGRST116') {
+          const userMetadata = authData.user.user_metadata || {};
+          const { data: newProfile, error: createError } = await supabase
+            .from('profiles')
+            .insert({
+              id: authData.user.id,
+              full_name: userMetadata.full_name || 'Administrator',
+              apartment_number: userMetadata.apartment_number || 'ADMIN',
+              role: userMetadata.role || 'admin'
+            })
+            .select()
+            .single();
+
+          if (createError) {
+            return {
+              success: false,
+              error: 'Failed to create user profile'
+            };
+          }
+
+          return {
+            success: true,
+            user: { id: authData.user.id, email: authData.user.email },
+            profile: newProfile as User
+          };
+        }
+
         return {
           success: false,
           error: 'Failed to load user profile'
@@ -139,6 +167,34 @@ export class AuthService {
         .single();
 
       if (profileError) {
+        // If profile doesn't exist, try to create it from auth user metadata
+        if (profileError.code === 'PGRST116') {
+          const userMetadata = user.user_metadata || {};
+          const { data: newProfile, error: createError } = await supabase
+            .from('profiles')
+            .insert({
+              id: user.id,
+              full_name: userMetadata.full_name || 'Administrator',
+              apartment_number: userMetadata.apartment_number || 'ADMIN',
+              role: userMetadata.role || 'admin'
+            })
+            .select()
+            .single();
+
+          if (createError) {
+            return {
+              success: false,
+              error: 'Failed to create user profile'
+            };
+          }
+
+          return {
+            success: true,
+            user: { id: user.id, email: user.email },
+            profile: newProfile as User
+          };
+        }
+
         return {
           success: false,
           error: 'Failed to load user profile'

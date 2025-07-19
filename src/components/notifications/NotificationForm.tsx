@@ -152,10 +152,10 @@ export default function NotificationForm({ onNotificationComplete }: Notificatio
             onChange={(e) => setType(e.target.value)}
             className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-white focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
           >
-            <option value="info" className="text-gray-900">ℹ️ Informare</option>
-            <option value="warning" className="text-gray-900">⚠️ Avertisment</option>
-            <option value="error" className="text-gray-900">❌ Eroare</option>
-            <option value="success" className="text-gray-900">✅ Succes</option>
+            <option value="info" className="text-white">ℹ️ Informare</option>
+            <option value="warning" className="text-white">⚠️ Avertisment</option>
+            <option value="error" className="text-white">❌ Eroare</option>
+            <option value="success" className="text-white">✅ Succes</option>
           </select>
         </div>
 
@@ -168,10 +168,10 @@ export default function NotificationForm({ onNotificationComplete }: Notificatio
             onChange={(e) => setTargetAudience(e.target.value)}
             className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-white focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
           >
-            <option value="all" className="text-gray-900">Toți utilizatorii</option>
-            <option value="admins" className="text-gray-900">Doar administratorii</option>
-            <option value="tenants" className="text-gray-900">Doar locatarii</option>
-            <option value="specific" className="text-gray-900">Utilizatori specifici</option>
+            <option value="all" className="text-white">Toți utilizatorii</option>
+            <option value="admins" className="text-white">Doar administratorii</option>
+            <option value="tenants" className="text-white">Doar locatarii</option>
+            <option value="specific" className="text-white">Utilizatori specifici</option>
           </select>
         </div>
 

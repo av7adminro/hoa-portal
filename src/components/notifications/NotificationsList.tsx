@@ -30,12 +30,7 @@ export default function NotificationsList({ refreshTrigger, userRole, userId }: 
       
       const { data, error } = await supabase
         .from('notifications')
-        .select(`
-          *,
-          profiles:created_by (
-            full_name
-          )
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -43,10 +38,33 @@ export default function NotificationsList({ refreshTrigger, userRole, userId }: 
         return;
       }
 
-      const notificationsWithAuthor = data.map(notification => ({
-        ...notification,
-        author_name: notification.profiles?.full_name || 'Administrator'
-      }));
+      // Get author names separately if needed
+      const notificationsWithAuthor = await Promise.all(
+        data.map(async (notification) => {
+          let author_name = 'Administrator';
+          
+          if (notification.created_by) {
+            try {
+              const { data: userData } = await supabase
+                .from('users')
+                .select('full_name')
+                .eq('id', notification.created_by)
+                .single();
+              
+              if (userData?.full_name) {
+                author_name = userData.full_name;
+              }
+            } catch (error) {
+              console.error('Error fetching user data:', error);
+            }
+          }
+          
+          return {
+            ...notification,
+            author_name
+          };
+        })
+      );
 
       setNotifications(notificationsWithAuthor);
     } catch (error) {
@@ -136,7 +154,7 @@ export default function NotificationsList({ refreshTrigger, userRole, userId }: 
       case 'warning': return 'bg-yellow-100 text-yellow-800';
       case 'error': return 'bg-red-100 text-red-800';
       case 'success': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
+      default: return 'bg-white text-white';
     }
   };
 
@@ -201,9 +219,9 @@ export default function NotificationsList({ refreshTrigger, userRole, userId }: 
             onChange={(e) => setFilter(e.target.value)}
             className="px-4 py-2 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-white focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
           >
-            <option value="all" className="text-gray-900">Toate</option>
-            <option value="unread" className="text-gray-900">Necitite</option>
-            <option value="read" className="text-gray-900">Citite</option>
+            <option value="all" className="text-white">Toate</option>
+            <option value="unread" className="text-white">Necitite</option>
+            <option value="read" className="text-white">Citite</option>
           </select>
         </div>
       </div>

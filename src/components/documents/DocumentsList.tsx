@@ -39,12 +39,7 @@ export default function DocumentsList({ refreshTrigger }: DocumentsListProps) {
       
       const { data, error } = await supabase
         .from('documents')
-        .select(`
-          *,
-          profiles:uploaded_by (
-            full_name
-          )
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -52,9 +47,10 @@ export default function DocumentsList({ refreshTrigger }: DocumentsListProps) {
         return;
       }
 
+      // Pentru moment, nu avem numele utilizatorului
       const documentsWithUploader = data.map(doc => ({
         ...doc,
-        uploader_name: doc.profiles?.full_name || 'Utilizator necunoscut'
+        uploader_name: 'Administrator'
       }));
 
       setDocuments(documentsWithUploader);
@@ -67,10 +63,12 @@ export default function DocumentsList({ refreshTrigger }: DocumentsListProps) {
 
   const downloadDocument = async (filePath: string, fileName: string) => {
     try {
+      console.log('Attempting to download:', filePath, fileName);
       const { data, error } = await downloadFile(filePath);
       
       if (error) {
-        alert('Eroare la descarcarea documentului: ' + (error instanceof Error ? error.message : 'Eroare necunoscută'));
+        console.error('Download error:', error);
+        alert('Eroare la descarcarea documentului: ' + error.message);
         return;
       }
       
@@ -84,9 +82,12 @@ export default function DocumentsList({ refreshTrigger }: DocumentsListProps) {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+      } else {
+        alert('Nu s-au primit date de la server');
       }
     } catch (error) {
-      alert('Eroare la descarcarea documentului: ' + (error instanceof Error ? error.message : 'Eroare'));
+      console.error('Download exception:', error);
+      alert('Eroare la descarcarea documentului: ' + (error instanceof Error ? error.message : 'Eroare necunoscută'));
     }
   };
 
@@ -147,7 +148,7 @@ export default function DocumentsList({ refreshTrigger }: DocumentsListProps) {
       case 'regulamente': return 'bg-purple-100 text-purple-800';
       case 'contracte': return 'bg-orange-100 text-orange-800';
       case 'corespondenta': return 'bg-pink-100 text-pink-800';
-      default: return 'bg-gray-100 text-gray-800';
+      default: return 'bg-white text-white';
     }
   };
 
@@ -172,7 +173,7 @@ export default function DocumentsList({ refreshTrigger }: DocumentsListProps) {
       <div className="backdrop-blur-2xl bg-white/10 rounded-2xl p-6 border border-white/20">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Se incarca documentele...</p>
+          <p className="text-white">Se incarca documentele...</p>
         </div>
       </div>
     );
@@ -181,7 +182,7 @@ export default function DocumentsList({ refreshTrigger }: DocumentsListProps) {
   return (
     <div className="backdrop-blur-2xl bg-white/10 rounded-2xl p-6 border border-white/20">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-        <h3 className="text-xl font-bold text-gray-800">Lista Documente</h3>
+        <h3 className="text-xl font-bold text-white">Lista Documente</h3>
         
         <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
           <input
@@ -189,13 +190,13 @@ export default function DocumentsList({ refreshTrigger }: DocumentsListProps) {
             placeholder="Cauta documente..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="px-4 py-2 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
+            className="px-4 py-2 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-white placeholder-white focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
           />
           
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="px-4 py-2 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-gray-800 focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
+            className="px-4 py-2 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-white focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
           >
             <option value="all">Toate categoriile</option>
             <option value="facturi">Facturi</option>
@@ -217,7 +218,7 @@ export default function DocumentsList({ refreshTrigger }: DocumentsListProps) {
       {filteredDocuments.length === 0 ? (
         <div className="text-center py-12">
           <div className="text-6xl mb-4">📁</div>
-          <p className="text-gray-600 text-lg">Nu au fost gasite documente</p>
+          <p className="text-white text-lg">Nu au fost gasite documente</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -234,7 +235,7 @@ export default function DocumentsList({ refreshTrigger }: DocumentsListProps) {
                   
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
-                      <h4 className="text-lg font-semibold text-gray-800">
+                      <h4 className="text-lg font-semibold text-white">
                         {document.title}
                       </h4>
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(document.category)}`}>
@@ -243,12 +244,12 @@ export default function DocumentsList({ refreshTrigger }: DocumentsListProps) {
                     </div>
                     
                     {document.description && (
-                      <p className="text-gray-600 mb-2">
+                      <p className="text-white mb-2">
                         {document.description}
                       </p>
                     )}
                     
-                    <div className="flex items-center gap-4 text-sm text-gray-500">
+                    <div className="flex items-center gap-4 text-sm text-white">
                       <span>📄 {document.file_name}</span>
                       <span>📏 {formatFileSize(document.file_size)}</span>
                       <span>📅 {formatDate(document.created_at)}</span>

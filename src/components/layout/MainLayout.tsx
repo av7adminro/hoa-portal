@@ -44,19 +44,19 @@ export default function MainLayout({ children }: MainLayoutProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
       {/* Animated Background Elements */}
       <div className="fixed inset-0 z-0">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-200/40 to-purple-200/40 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-1/2 right-0 w-80 h-80 bg-gradient-to-br from-pink-200/40 to-orange-200/40 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute bottom-0 left-1/2 w-72 h-72 bg-gradient-to-br from-green-200/40 to-blue-200/40 rounded-full blur-3xl animate-pulse delay-2000"></div>
+        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/2 right-0 w-80 h-80 bg-gradient-to-br from-pink-500/20 to-orange-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-0 left-1/2 w-72 h-72 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
         
         {/* Floating geometric shapes - Fixed positions */}
         <div className="absolute inset-0 pointer-events-none">
           {particles.map((particle, i) => (
             <div
               key={i}
-              className="absolute w-4 h-4 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full animate-float"
+              className="absolute w-4 h-4 bg-gradient-to-br from-blue-400/40 to-purple-400/40 rounded-full animate-float"
               style={{
                 left: `${particle.left}%`,
                 top: `${particle.top}%`,
@@ -69,8 +69,8 @@ export default function MainLayout({ children }: MainLayoutProps) {
       </div>
 
       {/* Navigation */}
-      <nav className={`relative z-50 backdrop-blur-xl bg-white/10 border-b border-white/20 sticky top-0 transition-all duration-300 ${
-        scrollY > 50 ? 'bg-white/20' : 'bg-white/10'
+      <nav className={`relative z-50 backdrop-blur-xl bg-black/20 border-b border-white/20 sticky top-0 transition-all duration-300 ${
+        scrollY > 50 ? 'bg-black/30' : 'bg-black/20'
       }`}>
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
@@ -78,7 +78,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
               <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
                 <span className="text-white font-bold text-lg">AP</span>
               </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+              <span className="text-2xl font-bold bg-gradient-to-r from-white to-white bg-clip-text text-transparent">
                 Asociatia Proprietari
               </span>
             </Link>
@@ -88,7 +88,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
               <Link 
                 href="/" 
                 className={`font-medium transition-colors ${
-                  pathname === '/' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                  pathname === '/' ? 'text-blue-400' : 'text-white hover:text-blue-400'
                 }`}
               >
                 Acasa
@@ -96,7 +96,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
               <Link 
                 href="/despre" 
                 className={`font-medium transition-colors ${
-                  pathname === '/despre' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                  pathname === '/despre' ? 'text-blue-400' : 'text-white hover:text-blue-400'
                 }`}
               >
                 Despre
@@ -104,7 +104,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
               <Link 
                 href="/contact" 
                 className={`font-medium transition-colors ${
-                  pathname === '/contact' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                  pathname === '/contact' ? 'text-blue-400' : 'text-white hover:text-blue-400'
                 }`}
               >
                 Contact
@@ -124,7 +124,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden p-2 rounded-lg backdrop-blur-sm bg-white/20 hover:bg-white/30 transition-all duration-300"
             >
-              <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
@@ -138,7 +138,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
               <Link 
                 href="/" 
                 className={`block py-2 font-medium transition-colors ${
-                  pathname === '/' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                  pathname === '/' ? 'text-blue-600' : 'text-white hover:text-blue-600'
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -147,7 +147,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
               <Link 
                 href="/despre" 
                 className={`block py-2 font-medium transition-colors ${
-                  pathname === '/despre' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                  pathname === '/despre' ? 'text-blue-600' : 'text-white hover:text-blue-600'
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -156,7 +156,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
               <Link 
                 href="/contact" 
                 className={`block py-2 font-medium transition-colors ${
-                  pathname === '/contact' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                  pathname === '/contact' ? 'text-blue-600' : 'text-white hover:text-blue-600'
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -190,11 +190,11 @@ export default function MainLayout({ children }: MainLayoutProps) {
                   <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
                     <span className="text-white font-bold">AP</span>
                   </div>
-                  <span className="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                  <span className="text-xl font-bold bg-gradient-to-r from-white to-white bg-clip-text text-transparent">
                     Asociatia Proprietari
                   </span>
                 </div>
-                <p className="text-gray-600 max-w-md">
+                <p className="text-white max-w-md">
                   Transformam viata la bloc prin tehnologie avansata si design inteligent. 
                   Experienta moderna pentru asociatii de proprietari.
                 </p>
@@ -202,18 +202,18 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
               {/* Quick Links */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Navigare</h3>
+                <h3 className="text-lg font-semibold text-white mb-4">Navigare</h3>
                 <div className="space-y-2">
-                  <Link href="/" className="block text-gray-600 hover:text-blue-600 transition-colors">
+                  <Link href="/" className="block text-white hover:text-blue-600 transition-colors">
                     Acasa
                   </Link>
-                  <Link href="/despre" className="block text-gray-600 hover:text-blue-600 transition-colors">
+                  <Link href="/despre" className="block text-white hover:text-blue-600 transition-colors">
                     Despre
                   </Link>
-                  <Link href="/contact" className="block text-gray-600 hover:text-blue-600 transition-colors">
+                  <Link href="/contact" className="block text-white hover:text-blue-600 transition-colors">
                     Contact
                   </Link>
-                  <Link href="/login" className="block text-gray-600 hover:text-blue-600 transition-colors">
+                  <Link href="/login" className="block text-white hover:text-blue-600 transition-colors">
                     Conecteaza-te
                   </Link>
                 </div>
@@ -221,8 +221,8 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
               {/* Contact Info */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Contact</h3>
-                <div className="space-y-2 text-gray-600">
+                <h3 className="text-lg font-semibold text-white mb-4">Contact</h3>
+                <div className="space-y-2 text-white">
                   <p>contact@asociatia.ro</p>
                   <p>+40 21 123 456</p>
                   <p>Bucuresti, Romania</p>
@@ -232,7 +232,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
             {/* Bottom Section */}
             <div className="border-t border-white/20 pt-8 text-center">
-              <p className="text-gray-600">
+              <p className="text-white">
                 © {new Date().getFullYear()} Asociatia de Proprietari. Toate drepturile rezervate.
                 Construit cu ❤️ pentru comunitate.
               </p>

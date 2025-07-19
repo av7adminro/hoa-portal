@@ -97,7 +97,7 @@ export default function DocumentUpload({ onUploadComplete }: DocumentUploadProps
 
   return (
     <div className="backdrop-blur-2xl bg-white/10 rounded-2xl p-6 border border-white/20">
-      <h3 className="text-xl font-bold text-gray-800 mb-6">Incarca Document Nou</h3>
+      <h3 className="text-xl font-bold text-white mb-6">Incarca Document Nou</h3>
       
       {error && (
         <div className="mb-4 p-4 bg-red-500/20 border border-red-500/30 rounded-xl text-red-700">
@@ -107,27 +107,27 @@ export default function DocumentUpload({ onUploadComplete }: DocumentUploadProps
 
       <form onSubmit={handleUpload} className="space-y-4">
         <div>
-          <label className="block text-gray-700 font-medium mb-2">
+          <label className="block text-white font-medium mb-2">
             Titlu document *
           </label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
+            className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-white placeholder-white focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
             placeholder="Introduceti titlul documentului"
             required
           />
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium mb-2">
+          <label className="block text-white font-medium mb-2">
             Categorie *
           </label>
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-gray-800 focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
+            className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-white focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
             required
           >
             <option value="">Selecteaza categoria</option>
@@ -141,30 +141,30 @@ export default function DocumentUpload({ onUploadComplete }: DocumentUploadProps
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium mb-2">
+          <label className="block text-white font-medium mb-2">
             Descriere
           </label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300 h-24"
+            className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-white placeholder-white focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300 h-24"
             placeholder="Descriere optionala a documentului"
           />
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium mb-2">
+          <label className="block text-white font-medium mb-2">
             Fisier *
           </label>
           <input
             type="file"
             onChange={handleFileSelect}
-            className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-gray-800 focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
+            className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-white focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
             accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"
             required
           />
           {selectedFile && (
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-sm text-white">
               Fisier selectat: {selectedFile.name} ({(selectedFile.size / 1024 / 1024).toFixed(2)} MB)
             </p>
           )}

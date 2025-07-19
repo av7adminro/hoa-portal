@@ -65,7 +65,7 @@ export default function Contact() {
           <div className="text-center mb-16">
             <div className="backdrop-blur-2xl bg-white/10 rounded-3xl p-12 border border-white/20 shadow-2xl">
               <h1 className="text-5xl md:text-6xl font-black mb-6 leading-tight">
-                <span className="bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-white via-blue-800 to-purple-800 bg-clip-text text-transparent">
                   Contacteaza
                 </span>
                 <br />
@@ -74,7 +74,7 @@ export default function Contact() {
                 </span>
               </h1>
               <div className="w-32 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-8 rounded-full"></div>
-              <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+              <p className="text-xl text-white max-w-3xl mx-auto">
                 Suntem aici pentru tine! Contacteaza-ne pentru orice intrebare, sugestie sau problema.
               </p>
             </div>
@@ -89,7 +89,7 @@ export default function Contact() {
             {/* Contact Information */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-4xl font-bold mb-8 bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                <h2 className="text-4xl font-bold mb-8 bg-gradient-to-r from-white to-white bg-clip-text text-transparent">
                   Informatii Contact
                 </h2>
               </div>
@@ -138,13 +138,13 @@ export default function Contact() {
                         {contact.icon}
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-blue-600 transition-colors duration-300">
+                        <h3 className="text-lg font-bold text-white mb-1 group-hover:text-blue-600 transition-colors duration-300">
                           {contact.title}
                         </h3>
-                        <p className="text-gray-700 font-medium group-hover:text-gray-900 transition-colors duration-300">
+                        <p className="text-white font-medium group-hover:text-white transition-colors duration-300">
                           {contact.info}
                         </p>
-                        <p className="text-gray-500 text-sm mt-1">
+                        <p className="text-white text-sm mt-1">
                           {contact.subinfo}
                         </p>
                       </div>
@@ -158,13 +158,13 @@ export default function Contact() {
                 <div className="flex items-start space-x-4">
                   <div className="text-3xl">🚨</div>
                   <div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-1">
+                    <h3 className="text-lg font-bold text-white mb-1">
                       Urgențe <span className="text-red-600">24/7</span>
                     </h3>
-                    <p className="text-gray-700 font-medium">
+                    <p className="text-white font-medium">
                       +40 21 987 654 321
                     </p>
-                    <p className="text-gray-500 text-sm mt-1">
+                    <p className="text-white text-sm mt-1">
                       Pentru avarii, incendii sau situații de urgență
                     </p>
                   </div>
@@ -174,14 +174,14 @@ export default function Contact() {
 
             {/* Contact Form */}
             <div className="backdrop-blur-2xl bg-white/10 rounded-3xl p-8 border border-white/20 shadow-2xl">
-              <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+              <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-white to-white bg-clip-text text-transparent">
                 Trimite-ne un Mesaj
               </h2>
               
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-gray-700 font-medium mb-2">
+                    <label className="block text-white font-medium mb-2">
                       Numele complet
                     </label>
                     <input
@@ -189,14 +189,14 @@ export default function Contact() {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
+                      className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-white placeholder-white focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
                       placeholder="Introduceti numele"
                       required
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-gray-700 font-medium mb-2">
+                    <label className="block text-white font-medium mb-2">
                       Email
                     </label>
                     <input
@@ -204,7 +204,7 @@ export default function Contact() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
+                      className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-white placeholder-white focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
                       placeholder="email@exemplu.com"
                       required
                     />
@@ -213,7 +213,7 @@ export default function Contact() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-gray-700 font-medium mb-2">
+                    <label className="block text-white font-medium mb-2">
                       Apartament
                     </label>
                     <input
@@ -221,21 +221,21 @@ export default function Contact() {
                       name="apartment"
                       value={formData.apartment}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
+                      className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-white placeholder-white focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
                       placeholder="ex: Ap. 15, Sc. A, Et. 3"
                       required
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-gray-700 font-medium mb-2">
+                    <label className="block text-white font-medium mb-2">
                       Subiect
                     </label>
                     <select
                       name="subject"
                       value={formData.subject}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-gray-800 focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
+                      className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-white focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300"
                       required
                     >
                       <option value="">Selecteaza categoria</option>
@@ -249,7 +249,7 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-gray-700 font-medium mb-2">
+                  <label className="block text-white font-medium mb-2">
                     Mesaj
                   </label>
                   <textarea
@@ -257,7 +257,7 @@ export default function Contact() {
                     value={formData.message}
                     onChange={handleChange}
                     rows={6}
-                    className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300 resize-none"
+                    className="w-full px-4 py-3 backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl text-white placeholder-white focus:outline-none focus:border-blue-500 focus:bg-white/30 transition-all duration-300 resize-none"
                     placeholder="Descrie problema sau intrebarea ta..."
                     required
                   />
@@ -288,14 +288,14 @@ export default function Contact() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-white to-white bg-clip-text text-transparent">
                 Intrebari
               </span>
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 {" "}Frecvente
               </span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-white max-w-3xl mx-auto">
               Gaseste rapid raspunsuri la intrebarile cele mai comune
             </p>
           </div>
@@ -343,10 +343,10 @@ export default function Contact() {
                 key={index}
                 className={`backdrop-blur-2xl bg-gradient-to-br ${faq.gradient} rounded-2xl p-6 border ${faq.border} hover:border-white/30 transition-all duration-300 hover:bg-white/20 group transform hover:scale-105 shadow-lg hover:shadow-2xl`}
               >
-                <h3 className="text-lg font-bold text-gray-800 mb-3 group-hover:text-blue-600 transition-colors duration-300">
+                <h3 className="text-lg font-bold text-white mb-3 group-hover:text-blue-600 transition-colors duration-300">
                   {faq.question}
                 </h3>
-                <p className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300">
+                <p className="text-white group-hover:text-white transition-colors duration-300">
                   {faq.answer}
                 </p>
               </div>
@@ -359,11 +359,11 @@ export default function Contact() {
       <section className="px-6 py-20">
         <div className="max-w-7xl mx-auto">
           <div className="backdrop-blur-2xl bg-white/10 rounded-3xl p-8 border border-white/20 shadow-2xl">
-            <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+            <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-white to-white bg-clip-text text-transparent">
               Locatia Noastra
             </h2>
-            <div className="bg-gradient-to-br from-gray-200 to-gray-300 rounded-2xl h-64 flex items-center justify-center">
-              <p className="text-gray-600 font-medium">
+            <div className="bg-gradient-to-br from-white to-white rounded-2xl h-64 flex items-center justify-center">
+              <p className="text-white font-medium">
                 Aici va fi integrata harta Google Maps
               </p>
             </div>

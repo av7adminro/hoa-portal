@@ -10,7 +10,7 @@ export default function About() {
           <div className="text-center mb-16">
             <div className="backdrop-blur-2xl bg-white/10 rounded-3xl p-12 border border-white/20 shadow-2xl">
               <h1 className="text-5xl md:text-6xl font-black mb-6 leading-tight">
-                <span className="bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-white via-blue-800 to-purple-800 bg-clip-text text-transparent">
                   Despre
                 </span>
                 <br />
@@ -19,7 +19,7 @@ export default function About() {
                 </span>
               </h1>
               <div className="w-32 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-8 rounded-full"></div>
-              <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+              <p className="text-xl text-white max-w-3xl mx-auto">
                 O comunitate moderna care imbratiseaza tehnologia pentru o viata mai buna la bloc
               </p>
             </div>
@@ -34,15 +34,15 @@ export default function About() {
             {/* Mission */}
             <div className="backdrop-blur-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-3xl p-8 border border-blue-500/20 shadow-2xl hover:shadow-blue-500/10 transition-all duration-500">
               <div className="text-5xl mb-6">🎯</div>
-              <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+              <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-white to-white bg-clip-text text-transparent">
                 Misiunea Noastra
               </h2>
-              <p className="text-gray-700 mb-6 leading-relaxed">
+              <p className="text-white mb-6 leading-relaxed">
                 Cream o comunitate moderna si transparenta, unde fiecare locatar are 
                 acces usor la informatiile importante si poate participa activ la 
                 viata asociatiei.
               </p>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-white leading-relaxed">
                 Prin tehnologie si inovatie, transformam administrarea traditionala 
                 intr-o experienta digitala sigura si eficienta.
               </p>
@@ -51,14 +51,14 @@ export default function About() {
             {/* Vision */}
             <div className="backdrop-blur-2xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-3xl p-8 border border-purple-500/20 shadow-2xl hover:shadow-purple-500/10 transition-all duration-500">
               <div className="text-5xl mb-6">🔮</div>
-              <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+              <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-white to-white bg-clip-text text-transparent">
                 Viziunea Noastra
               </h2>
-              <p className="text-gray-700 mb-6 leading-relaxed">
+              <p className="text-white mb-6 leading-relaxed">
                 Sa fim modelul asociatiei de proprietari moderne din Romania, 
                 care foloseste tehnologia pentru transparenta si eficienta.
               </p>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-white leading-relaxed">
                 Credem intr-un viitor in care administrarea blocurilor este 
                 complet digitalizata, transparenta si accesibila tuturor.
               </p>
@@ -72,14 +72,14 @@ export default function About() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-white to-white bg-clip-text text-transparent">
                 Valorile
               </span>
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 {" "}Noastre
               </span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-white max-w-3xl mx-auto">
               Principiile care ne ghideaza in tot ceea ce facem
             </p>
           </div>
@@ -136,10 +136,10 @@ export default function About() {
                 <div className="text-5xl mb-6 transform group-hover:scale-110 transition-transform duration-300">
                   {value.icon}
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-4 group-hover:text-blue-600 transition-colors duration-300">
+                <h3 className="text-xl font-bold text-white mb-4 group-hover:text-blue-600 transition-colors duration-300">
                   {value.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed group-hover:text-gray-800 transition-colors duration-300">
+                <p className="text-white leading-relaxed group-hover:text-white transition-colors duration-300">
                   {value.description}
                 </p>
               </div>
@@ -153,14 +153,14 @@ export default function About() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-white to-white bg-clip-text text-transparent">
                 Echipa
               </span>
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 {" "}Noastra
               </span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-white max-w-3xl mx-auto">
               Profesioniștii dedicati care fac posibila aceasta experienta
             </p>
           </div>
@@ -199,11 +199,11 @@ export default function About() {
                 <div className="text-6xl mb-6 transform group-hover:scale-110 transition-transform duration-300">
                   {member.avatar}
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors duration-300">
+                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-600 transition-colors duration-300">
                   {member.name}
                 </h3>
                 <p className="text-blue-600 font-medium mb-4">{member.role}</p>
-                <p className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300">
+                <p className="text-white group-hover:text-white transition-colors duration-300">
                   {member.description}
                 </p>
               </div>
@@ -217,10 +217,10 @@ export default function About() {
         <div className="max-w-6xl mx-auto">
           <div className="backdrop-blur-2xl bg-gradient-to-br from-white/20 to-white/10 rounded-3xl p-12 border border-white/20 shadow-2xl">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-white to-white bg-clip-text text-transparent">
                 Statistici Asociatie
               </h2>
-              <p className="text-xl text-gray-600">Cifrele care ne definesc comunitatea</p>
+              <p className="text-xl text-white">Cifrele care ne definesc comunitatea</p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
@@ -234,7 +234,7 @@ export default function About() {
                   <div className={`text-4xl font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300`}>
                     {stat.number}
                   </div>
-                  <div className="text-gray-600 font-medium">
+                  <div className="text-white font-medium">
                     {stat.label}
                   </div>
                 </div>
@@ -249,14 +249,14 @@ export default function About() {
         <div className="max-w-4xl mx-auto text-center">
           <div className="backdrop-blur-2xl bg-gradient-to-br from-white/20 to-white/10 rounded-3xl p-16 border border-white/20 shadow-2xl">
             <h2 className="text-4xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-white to-white bg-clip-text text-transparent">
                 Alatura-te
               </span>
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 {" "}Comunitatii
               </span>
             </h2>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-white mb-8 max-w-2xl mx-auto">
               Fii parte din aceasta transformare digitala si bucura-te de 
               beneficiile unei administrarii moderne si transparente.
             </p>

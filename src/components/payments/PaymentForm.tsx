@@ -117,7 +117,7 @@ export default function PaymentForm({ onPaymentComplete }: PaymentFormProps) {
           >
             <option value="">Selecteaza locatarul</option>
             {users.map((user) => (
-              <option key={user.id} value={user.id} className="text-gray-900">
+              <option key={user.id} value={user.id} className="text-white">
                 Ap. {user.apartment_number} - {user.full_name}
               </option>
             ))}
@@ -150,10 +150,10 @@ export default function PaymentForm({ onPaymentComplete }: PaymentFormProps) {
             required
           >
             <option value="">Selecteaza categoria</option>
-            <option value="monthly_fee" className="text-gray-900">Întreținere lunară</option>
-            <option value="utilities" className="text-gray-900">Utilitați</option>
-            <option value="maintenance" className="text-gray-900">Reparații</option>
-            <option value="other" className="text-gray-900">Altele</option>
+            <option value="monthly_fee" className="text-white">Întreținere lunară</option>
+            <option value="utilities" className="text-white">Utilitați</option>
+            <option value="maintenance" className="text-white">Reparații</option>
+            <option value="other" className="text-white">Altele</option>
           </select>
         </div>
 

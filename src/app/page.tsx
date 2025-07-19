@@ -37,19 +37,19 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
       {/* Animated Background Elements */}
       <div className="fixed inset-0 z-0">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-200/40 to-purple-200/40 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-1/2 right-0 w-80 h-80 bg-gradient-to-br from-pink-200/40 to-orange-200/40 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute bottom-0 left-1/2 w-72 h-72 bg-gradient-to-br from-green-200/40 to-blue-200/40 rounded-full blur-3xl animate-pulse delay-2000"></div>
+        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/2 right-0 w-80 h-80 bg-gradient-to-br from-pink-500/20 to-orange-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-0 left-1/2 w-72 h-72 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
         
         {/* Floating geometric shapes - Fixed positions */}
         <div className="absolute inset-0 pointer-events-none">
           {particles.map((particle, i) => (
             <div
               key={i}
-              className="absolute w-4 h-4 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full animate-float"
+              className="absolute w-4 h-4 bg-gradient-to-br from-blue-400/40 to-purple-400/40 rounded-full animate-float"
               style={{
                 left: `${particle.left}%`,
                 top: `${particle.top}%`,
@@ -62,26 +62,26 @@ export default function Home() {
       </div>
 
       {/* Navigation */}
-      <nav className="relative z-50 backdrop-blur-xl bg-white/10 border-b border-white/20 sticky top-0">
+      <nav className="relative z-50 backdrop-blur-xl bg-black/20 border-b border-white/20 sticky top-0">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-3">
               <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
                 <span className="text-white font-bold text-lg">AP</span>
               </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+              <span className="text-2xl font-bold bg-gradient-to-r from-white to-white bg-clip-text text-transparent">
                 Asociatia Proprietari
               </span>
             </div>
             
             <div className="hidden md:flex space-x-8">
-              <Link href="/" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+              <Link href="/" className="text-white hover:text-blue-400 font-medium transition-colors">
                 Acasa
               </Link>
-              <Link href="/despre" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+              <Link href="/despre" className="text-white hover:text-blue-400 font-medium transition-colors">
                 Despre
               </Link>
-              <Link href="/contact" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+              <Link href="/contact" className="text-white hover:text-blue-400 font-medium transition-colors">
                 Contact
               </Link>
             </div>
@@ -101,23 +101,23 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className={`text-center transform transition-all duration-1000 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
             {/* Hero Card */}
-            <div className="backdrop-blur-2xl bg-white/10 rounded-3xl p-12 border border-white/20 shadow-2xl mb-16 hover:bg-white/20 transition-all duration-500">
+            <div className="backdrop-blur-2xl bg-black/20 rounded-3xl p-12 border border-white/20 shadow-2xl mb-16 hover:bg-black/30 transition-all duration-500">
               <h1 className="text-6xl md:text-8xl font-black mb-6 leading-tight">
-                <span className="bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
                   SMART
                 </span>
                 <br />
-                <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                   LIVING
                 </span>
               </h1>
               
               <div className="w-32 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-8 rounded-full"></div>
               
-              <p className="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto mb-12 leading-relaxed">
+              <p className="text-xl md:text-2xl text-white max-w-4xl mx-auto mb-12 leading-relaxed">
                 Reimaginam viata la bloc prin design inteligent si tehnologie avansata.
                 <br />
-                <span className="font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                <span className="font-semibold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                   Experimenteaza viitorul administrarii moderne.
                 </span>
               </p>
@@ -133,7 +133,7 @@ export default function Home() {
                 
                 <button 
                   onClick={() => router.push('/despre')}
-                  className="px-10 py-4 backdrop-blur-sm bg-white/20 hover:bg-white/30 text-gray-800 font-bold text-lg rounded-2xl border border-white/30 hover:border-white/50 transition-all duration-300 transform hover:scale-105"
+                  className="px-10 py-4 backdrop-blur-sm bg-white/20 hover:bg-white/30 text-white font-bold text-lg rounded-2xl border border-white/30 hover:border-white/50 transition-all duration-300 transform hover:scale-105"
                 >
                   Vezi demo
                 </button>
@@ -148,14 +148,14 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-white to-white bg-clip-text text-transparent">
                 Functionalitati
               </span>
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                 {" "}Revolutionare
               </span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-white max-w-3xl mx-auto">
               Descopera instrumentele care vor transforma complet experienta ta de locatar
             </p>
           </div>
@@ -213,11 +213,11 @@ export default function Home() {
                   {feature.icon}
                 </div>
                 
-                <h3 className="text-2xl font-bold text-gray-800 mb-4 group-hover:text-blue-600 transition-colors duration-300">
+                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors duration-300">
                   {feature.title}
                 </h3>
                 
-                <p className="text-gray-600 leading-relaxed group-hover:text-gray-800 transition-colors duration-300">
+                <p className="text-white leading-relaxed group-hover:text-white transition-colors duration-300">
                   {feature.description}
                 </p>
               </div>
@@ -229,8 +229,8 @@ export default function Home() {
       {/* Stats Section */}
       <section className="relative z-10 px-6 py-20">
         <div className="max-w-6xl mx-auto">
-          <div className="backdrop-blur-2xl bg-gradient-to-br from-white/20 to-white/10 rounded-3xl p-12 border border-white/20 shadow-2xl">
-            <h2 className="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+          <div className="backdrop-blur-2xl bg-gradient-to-br from-black/30 to-black/20 rounded-3xl p-12 border border-white/20 shadow-2xl">
+            <h2 className="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-white to-white bg-clip-text text-transparent">
               Performanta in Cifre
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
@@ -244,7 +244,7 @@ export default function Home() {
                   <div className={`text-4xl font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300`}>
                     {stat.number}
                   </div>
-                  <div className="text-gray-600 font-medium">
+                  <div className="text-white font-medium">
                     {stat.label}
                   </div>
                 </div>
@@ -257,19 +257,19 @@ export default function Home() {
       {/* CTA Section */}
       <section className="relative z-10 px-6 py-32">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="backdrop-blur-2xl bg-gradient-to-br from-white/20 to-white/10 rounded-3xl p-16 border border-white/20 shadow-2xl">
+          <div className="backdrop-blur-2xl bg-gradient-to-br from-black/30 to-black/20 rounded-3xl p-16 border border-white/20 shadow-2xl">
             <h2 className="text-5xl font-bold mb-8">
-              <span className="bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-white to-white bg-clip-text text-transparent">
                 Pregatit pentru
               </span>
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                 {" "}Viitor
               </span>
-              <span className="bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-white to-white bg-clip-text text-transparent">
                 ?
               </span>
             </h2>
-            <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
+            <p className="text-xl text-white mb-12 max-w-2xl mx-auto">
               Fa primul pas catre o asociatie de proprietari inteligenta si eficienta
             </p>
             <button 
