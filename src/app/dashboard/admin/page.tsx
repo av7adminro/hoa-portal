@@ -127,7 +127,7 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleEditUser = async (userId: string, updatedData: Partial<User>) => {
+  const handleEditUser = async (userId: string, updatedData: Partial<User> & { password?: string }) => {
     try {
       const response = await fetch(`/api/users/${userId}`, {
         method: 'PUT',
