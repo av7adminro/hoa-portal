@@ -16,6 +16,35 @@ export interface User {
   phone?: string
   persons_in_care?: number
   profile_picture?: string
+  
+  // Contact information
+  emergency_phone?: string
+  alternative_email?: string
+  
+  // Apartment information
+  apartment_area?: number
+  room_count?: number
+  floor_number?: number
+  parking_spots?: number
+  parking_location?: string
+  
+  // Family information
+  adults_count?: number
+  children_count?: number
+  pets_info?: string // JSON string
+  emergency_contact_name?: string
+  emergency_contact_phone?: string
+  
+  // Notification preferences
+  email_notifications?: boolean
+  sms_notifications?: boolean
+  notification_types?: string
+  
+  // Property information
+  property_type?: 'owner' | 'tenant'
+  move_in_date?: string
+  special_notes?: string
+  
   created_at: string
   updated_at: string
 }
