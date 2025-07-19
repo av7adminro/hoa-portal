@@ -541,6 +541,12 @@ export default function AdminDashboard() {
                 <p className="text-sm text-white">Bun venit,</p>
                 <p className="font-medium text-white">{user?.full_name}</p>
               </div>
+              <Link 
+                href="/profile"
+                className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-xl transition-all duration-300"
+              >
+                👤 Profil
+              </Link>
               <button 
                 onClick={handleLogout}
                 className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition-all duration-300"

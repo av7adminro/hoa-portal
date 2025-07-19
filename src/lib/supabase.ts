@@ -13,6 +13,9 @@ export interface User {
   full_name: string
   apartment_number: string
   role: 'admin' | 'tenant'
+  phone?: string
+  persons_in_care?: number
+  profile_picture?: string
   created_at: string
   updated_at: string
 }
