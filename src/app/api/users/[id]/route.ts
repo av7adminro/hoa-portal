@@ -76,7 +76,14 @@ export async function PUT(
     }
 
     // Update auth user metadata and password if provided
-    const updateData: any = {
+    const updateData: {
+      user_metadata: {
+        full_name: string;
+        apartment_number: string;
+        role: string;
+      };
+      password?: string;
+    } = {
       user_metadata: {
         full_name,
         apartment_number,
